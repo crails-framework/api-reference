@@ -1,0 +1,212 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  box-shadow: lightgray 0 0 5px; }
+
+footer a img {
+  height: 20px;
+  vertical-align: top; }
+
+application {
+  padding-top: 10px;
+  padding-bottom: 50px; }
+
+.breadcrumbs {
+  margin-top: 10px; }
+  .breadcrumbs .crumb {
+    display: inline-block;
+    margin: 0 3px;
+    font-size: 1.2em; }
+  .breadcrumbs .sep::before {
+    content: "::";
+    color: gray;
+    font-weight: bold; }
+
+nav.navbar .search-form {
+  width: 80%; }
+nav.navbar .ts-control {
+  border: 0; }
+nav.navbar .search-option .alias {
+  display: inline-block;
+  font-size: 1.5em; }
+nav.navbar .search-option .kind {
+  display: inline-block;
+  vertical-align: text-top;
+  width: 70px;
+  text-align: center;
+  margin-right: 7px; }
+nav.navbar .search-option .true-name {
+  display: block;
+  color: gray; }
+
+type {
+  display: inline-block;
+  position: relative; }
+
+.type-popup {
+  position: absolute;
+  z-index: 1;
+  width: 250px;
+  box-shadow: lightgray 0 0 5px;
+  color: black !important;
+  text-align: left !important; }
+
+.btn.btn-outline-primary.btn-cpptype {
+  padding: 2px 5px; }
+
+.function-identity > * {
+  display: inline-block;
+  margin: 0 5px; }
+
+.method-grid {
+  padding: 5px;
+  margin-bottom: 10px; }
+  .method-grid.inherited-methods::before {
+    content: "Inherited members";
+    font-weight: bold;
+    margin-left: -20px; }
+
+.method-list {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: [visibility] 1fr [return] 4fr [symbol] 2fr [params] 8fr [annotations] 3fr [end] 0; }
+  .method-list > .separator {
+    grid-column-start: visibility;
+    grid-column-end: end;
+    height: 1px;
+    background-color: lightgray;
+    padding: 0;
+    margin-left: -37px;
+    margin-right: -48px; }
+  .method-list > .visibility.public:after {
+    content: "+"; }
+  .method-list > .visibility.protected:after {
+    content: "#"; }
+  .method-list > .visibility.private:after {
+    content: "-"; }
+  .method-list > .return-type {
+    text-align: right; }
+    .method-list > .return-type.void-return-type {
+      margin-right: 5px; }
+  .method-list > .field-name {
+    grid-column-start: symbol;
+    grid-column-end: annotations; }
+
+.method-anotations > .badge {
+  margin-right: 2px; }
+
+.method-params template-params::before {
+  content: "<"; }
+.method-params template-params::after {
+  content: ">"; }
+.method-params template-params > *:not(:last-of-type)::after {
+  content: ",";
+  margin-right: 5px; }
+
+.param-list {
+  display: inline-block; }
+  .param-list::before {
+    content: "("; }
+  .param-list::after {
+    content: ")"; }
+  .param-list parameter {
+    margin-right: -5px; }
+  .param-list parameter:not(:last-of-type)::after {
+    content: ",";
+    margin-right: 10px;
+    margin-left: -5px; }
+
+template-params::before {
+  content: "<"; }
+template-params::after {
+  content: ">"; }
+
+.template-param > *:not(:first-of-type) {
+  margin: 0 0 0 5px; }
+.template-param:not(:first-of-type)::before {
+  content: ", "; }
+.template-param type::before {
+  content: "= "; }
+
+.members-list {
+  position: relative; }
+  .members-list visibility-picker.btn-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px; }
+
+.card.method-doc {
+  margin-bottom: 50px; }
+  .card.method-doc .method-headers {
+    margin-bottom: 10px;
+    border-bottom: lightgray 1px solid; }
+  .card.method-doc .method-header > * {
+    display: inline-block;
+    margin: 5px; }
+    .card.method-doc .method-header > *:first-of-type {
+      margin-left: 0; }
+
+parameter {
+  display: inline-block;
+  position: relative; }
+  parameter > * {
+    margin-right: 5px; }
+  parameter .typeconst {
+    color: black; }
+  parameter .other-type {
+    text-decoration: none;
+    cursor: default; }
+  parameter .varname {
+    font-style: italic; }
+
+@media (max-width: 768px) {
+  .container.twilidoc-container {
+    max-width: 700px;
+    min-width: 623px; } }
+@media (min-width: 1200px) {
+  .container.twilidoc-container {
+    max-width: 960px; } }
+
+.card {
+  margin: 10px 0; }
+
+class-list {
+  display: block; }
+
+.list-group-item > .key {
+  display: inline-block;
+  width: 170px; }
+
+.type-children-list {
+  margin-bottom: 25px; }
+
+.project-context-list .list-group-item {
+  white-space: nowrap;
+  overflow: hidden; }
+  .project-context-list .list-group-item .excerpt {
+    display: inline-block;
+    margin-left: 20px;
+    color: gray;
+    height: 18px;
+    font-size: 0.8em; }
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+.loading-view {
+  text-align: center;
+  padding: 50px; }
+  .loading-view img {
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    animation: spin 3s linear infinite; }
+  .loading-view span {
+    font-size: 1.5em; }
+
+/*# sourceMappingURL=application.css.map */

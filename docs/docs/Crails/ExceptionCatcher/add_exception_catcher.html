@@ -1,0 +1,9 @@
+<p>Adds a new type of exception to watch for.</p>
+<p>The template parameter must match the type of exception you wish to catch.</p>
+<p>For the second parameter:</p>
+<ul>
+<li><p>You may use a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a> to set a name for the exception, and have it handled by the default exception handler: this will provide a simple 500 response, and if your application is not in Production mode, will render an HTML view with more details about the exception (such as backtraces, if available).</p>
+</li>
+<li><p>You may also use <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::function" href="" target="_self">std::function</a> to define your own exception handler. The handler will receive a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a> object, which mutex will already have been locked, making it thread-safe for you to interact with. You may then provide your own HTTP response through the Context object.</p>
+</li>
+</ul>

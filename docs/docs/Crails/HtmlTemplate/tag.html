@@ -1,0 +1,14 @@
+<p>Generates an HTML tag using the type specified as parameter:</p>
+<pre><code class="language-html">&lt;%= tag(&quot;div&quot;) %&gt; &lt;!-- Renders: &lt;div&gt;&lt;/div&gt; --&gt;
+</code></pre>
+<p>Optionally, the method can take a list of HTML attributes:</p>
+<pre><code class="language-html">&lt;%= tag(&quot;div&quot;, {{&quot;class&quot;,&quot;card&quot;},{&quot;data-model-id&quot;,&quot;15&quot;}}) %&gt;
+&lt;!-- Renders: &lt;div class=&quot;card&quot; data-model-id=&quot;15&quot;&gt;&lt;/div&gt; --&gt;
+</code></pre>
+<p>You may also provide a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::function<std::string ()>" href="#/typedef/std::function<std::string ()>" target="_self">Yieldable</a> callback to render the element's contents.
+When writing <code>ecpp</code> templates, this should be done using the <code>yields/yiends-end</code> keywords:</p>
+<pre><code class="language-html">&lt;%= tag(&quot;div&quot;, {{&quot;class&quot;,&quot;card&quot;}}) do %&gt;
+  &lt;h1&gt;Title&lt;/h1&gt;
+  &lt;p&gt;Content&lt;/p&gt;
+&lt;% yields-end %&gt;
+</code></pre>

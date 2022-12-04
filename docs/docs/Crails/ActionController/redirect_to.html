@@ -1,0 +1,15 @@
+<p>Sets a redirect status on the response and immediately sends it, immediately ending the current transaction. The client will be redirected to the url specified as a parameter:</p>
+<pre><code class="language-c++">void MyController::index()
+{
+  // Redirect to your own webapp:
+  redirect_to(&quot;/local-path&quot;);
+  // Redirect to another website:
+  redirect_to(&quot;https://duckduckgo.com&quot;);
+}
+</code></pre>
+<p>By default, <code>redirect_to</code> uses the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303">303 See Other</a> response status. You may override this behaviour by using <code>redirect_to</code>'s overload and specifying a custom response status using <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::status" href="#/typedef/boost::beast::http::status" target="_self">Crails::HttpStatus</a>:</p>
+<pre><code class="language-c++">void MyController::index()
+{
+  redirect_to(Crails::HttpStatus::moved_permanently, &quot;/local-path&quot;);
+}
+</code></pre>

@@ -1,0 +1,39 @@
+<p>Route handler for <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::WebSocket" href="#/classes/::Crails::WebSocket" target="_self">WebSocket</a>.</p>
+<p>Usage:</p>
+<pre><code class="language-c++">struct MySocket : public Crails::WebSocket
+{
+  MySocket(Crails::Context&amp; context) : Crails::WebSocket(context) {}
+
+  void action_method()
+  {
+    send(&quot;Hello, world !&quot;);
+  }
+};
+
+void Router::initialize()
+{
+  using namespace Crails;
+  using namespace std;
+
+  match(&quot;GET&quot;, &quot;/websocket&quot;, [](Context&amp; context, function&lt;void()&gt; callback)
+  {
+    WebSocketRoute&lt;MySocket&gt;::trigger(context, &amp;MySocket::action_method, callback);
+  });
+
+  // Alternatively:
+  match(&quot;GET&quot;, &quot;/alt-websocket&quot;,
+    bind(
+      SocketRoute&lt;MySocket&gt;::trigger,
+      placeholders::_1,
+      &amp;MySocket::action_method,
+      placeholders::_2
+    )
+  );
+}
+</code></pre>
+<p>The <code>WebSocketRoute</code> header also defines the <code>match_websocket</code> macro to facilitate route declaration:</p>
+<pre><code class="language-c++">void Router::initialize()
+{
+  match_action(&quot;GET&quot;, &quot;/websocket&quot;, MySocket, action_method);
+}
+</code></pre>

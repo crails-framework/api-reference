@@ -1,0 +1,6 @@
+<p>Returns the entire path from the root node to the current node. The result is returned as <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a>, with each node key separated by a dot.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b&quot;: { \&quot;c\&quot;: 1 } } }&quot;);
+Data node = root[&quot;a&quot;][&quot;b&quot;][&quot;c&quot;];
+
+cout &lt;&lt; node.get_path() &lt;&lt; &quot; = &quot; &lt;&lt; node.as&lt;int&gt;() &lt;&lt; endl; // prints: &quot;a.b.c = 1&quot;
+</code></pre>

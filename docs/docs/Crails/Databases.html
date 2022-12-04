@@ -1,0 +1,43 @@
+<p>Initializes and maintains a connection to remote databases represented by the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Databases::Database" href="#/classes/::Crails::Databases::Database" target="_self">Database</a> interface, in a multi-threading friendly fashion. Instances of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Databases::Database" href="#/classes/::Crails::Databases::Database" target="_self">Database</a> are created for each thread as soon as they are required, and are maintained until the thread shuts down.</p>
+<p>This design improves your application's response time by saving the time that would otherwise be spent on repeatedly opening and closing connections to your databases.</p>
+<p><code>Databases</code> is implementation-agnostic, and you can use it to manage your connection with several types of databases at the same time, such as MySQL, PostgreSQL, Sqlite, Redis, MongoDB, etc.</p>
+<h4>Pre-configured databases</h4>
+<p>Available databases are configured by defining the static <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::map<Environment, std::map<std::string, DatabaseSettings>>" href="#/typedef/std::map<Environment, std::map<std::string, DatabaseSettings>>" target="_self">Databases::Settings</a> <code>settings</code> attribute. Configurations are mapped by <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Environment" href="#/enums/::Crails::Environment" target="_self">Crails::Environment</a>:</p>
+<pre><code class="language-c++">const Crails::Databases::Settings = {
+  {
+    Crails::Development, {
+      {
+        &quot;my_database&quot;, { // &lt;-- Database unique identifier
+          {&quot;type&quot;, &quot;sqlite&quot;},
+          {&quot;name&quot;, &quot;application-db&quot;}
+        }
+      },
+      {
+        &quot;sync_database, {
+          {&quot;type&quot;, &quot;redis&quot;}
+        }
+      }
+      // ...
+    }
+  }
+};
+</code></pre>
+<p>Database handles are then aquired using the <code>CRAILS_DATABASE</code> macro:</p>
+<pre><code>Crails::Odb::Database&amp; sql_database = CRAILS_DATABASE(Crails::Odb,  &quot;my_database&quot;);
+Crails::Redis::Database&amp; redis_database = CRAILS_DATABASE(Crails::Redis, &quot;sync_database);
+</code></pre>
+<h4>Dynamic database creation</h4>
+<p>Some application may actually want to dynamically configure databases at runtime. This is also possible, using the <code>CRAILS_DATABASE_FROM_SETTINGS</code> macros:</p>
+<pre><code class="language-c++">Crails::Odb::Database&amp; sql_database = CRAILS_DATABASE_FROM_SETTINGS(Crails::Odb, &quot;unique_identifier&quot;, {
+  {&quot;type&quot;, &quot;pgsql&quot;},
+  {&quot;host&quot;, &quot;localhost&quot;},
+  {&quot;name&quot;, &quot;mydatabase&quot;}
+});
+</code></pre>
+<p>When using this macro, the database manager will first check for an existing database matching the <code>&quot;unique_identifier&quot;</code> used as parameter. If it exists, the existing database handle will be returned. If it doesn't exist, a new database handle will be created with the settings used as parameters.</p>
+<p>Here are some important facts to take into accounts when creating databases dynamically:</p>
+<ul>
+<li>Database handles are only garbage collected when the thread that created them are destroyed</li>
+<li>Threads from the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Server" href="#/classes/::Crails::Server" target="_self">Server</a> thread-pool are <em>never</em> destroyed</li>
+</ul>
+<p>You may compensate these flaws by using the <code>cleanup_database</code> method to clear away databases that were created dynamically.</p>

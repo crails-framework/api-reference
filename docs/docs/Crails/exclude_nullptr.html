@@ -1,0 +1,33 @@
+<p>Takes a list of pointers as parameter, and returns a list of the same type cleared out of any null pointers.</p>
+<p>Examples:</p>
+<pre><code class="language-c++">#include &lt;crails/utils/arrays.hpp&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;memory&gt;
+
+int main()
+{
+  using namespace std;
+  using namespace Crails;
+
+  // Safely deletes a list of raw pointers:
+  vector&lt;string*&gt; a = {
+    &quot;Hello&quot;, nullptr, &quot;world&quot;
+  };
+
+  for (string* str : exclude_nullptr(a))
+    delete str;
+
+  // Safely prints a list of smart pointers:
+  vector&lt;shared_ptr&lt;string&gt;&gt; b = {
+    make_shared&lt;string&gt;(&quot;Hello&quot;),
+    nullptr,
+    make_shared&lt;string&gt;(&quot;world&quot;)
+  };
+
+  for (const auto&amp; str : exclude_nullptr(b))
+    cout &lt;&lt; str &lt;&lt; endl;
+
+  return 0;
+}
+</code></pre>

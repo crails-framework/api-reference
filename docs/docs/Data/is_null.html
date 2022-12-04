@@ -1,0 +1,16 @@
+<p>Returns <code>true</code> if the current node is undefined or equal to &quot;null&quot;:</p>
+<pre><code class="language-c++">DataTree data = DataTree().from_json(&quot;{\&quot;key\&quot;: null}&quot;);
+Data node = data[&quot;key&quot;];
+
+cout &lt;&lt; node.as&lt;std::string&gt;() &lt;&lt; endl; // prints &quot;null&quot;
+
+cout &lt;&lt; node.is_null() &lt;&lt; endl; // prints 1
+
+node = 1;
+
+cout &lt;&lt; node.is_null() &lt;&lt; endl; // prints 0
+
+data.from_json(&quot;{\&quot;key\&quot;: \&quot;null\&quot;}&quot;);
+
+cout &lt;&lt; node.is_null() &lt;&lt; endl; // prints 1
+</code></pre>

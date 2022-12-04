@@ -1,0 +1,46 @@
+<p>Dynamic try/catch mechanism. Define catch blocks using <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::function" href="" target="_self">std::function</a>, then run protected code anywhere else in your application.</p>
+<h5>Request Pipeline</h5>
+<p><code>ExceptionCatcher</code> is used in the <a href="https://crails-framework.github.io/website/request_pipeline">Request Pipeline</a> to catch exceptions thrown when parsing or handling a request.</p>
+<p>Exception catchers can typically be added in the <code>config/request_pipe.cpp</code> file, when defining the <code>initialize_request_pipe</code> method, such as:</p>
+<pre><code class="language-c++">void Server::initialize_request_pipe()
+{
+  exception_catcher.add_exception_catcher&lt;std::logic_error&gt;(
+    [](Crails::Context&amp; context, const std::logic_error&amp;)
+    {
+      context.response.set_header(Crails::HttpHeader::content_type, &quot;text/plain&quot;);
+      context.response.set_response(Crails::HttpStatus::internal_server_error, &quot;Oh snap!&quot;);
+      context.response.send();
+    }
+  );
+}
+</code></pre>
+<h5>Asynchronous usage</h5>
+<p>When handling responses asynchronously, you should remember to wrap your asynchronous code in an exception catcher. This should be done using <a href="#/classes/::Crails::Context/protect">Context::protect</a>:</p>
+<pre><code class="language-c++">class MyRequestHandler : public Crails::RequestHandler
+{
+public:
+  MyRequestHandler() : Crails::RequestHandler(&quot;my-request-handler&quot;) {}
+
+  void operator()(Crails::Context&amp; context, std::function&lt;void(bool)&gt; callback) const override
+  {
+    auto async_callback = std::bind(async_code, context_ref.shared_from_this(), callback);
+
+    std::thread([&amp;context, async_callback]()
+    {
+      context-&gt;protect(async_callback);
+    }).detach();
+  }
+
+  static void async_code(std::shared_ptr&lt;Crails::Context&gt; context, std::function&lt;void(bool)&gt; callback)
+  {
+    context-&gt;response.set_response(Crails::HttpHeader::ok, &quot;ok&quot;);
+    callback(true);
+  }
+};
+</code></pre>
+<p>Note that before exception catcher callbacks are run, the <code>mutex</code> field from the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a> class is locked using <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::lock_guard" href="" target="_self">std::lock_guard</a>. Similarly, the <code>protect</code> method also locks the same mutex. This means that by using the <code>protect</code> method within your own threads, you can interact with the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a> object in a thread-safe fashion.</p>
+<h6>Issues</h6>
+<p>An exception catcher may be called several times for the same <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a>. This will happen when a thread throws an exception after having handed the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a> instance to another thread. The results might be unexpected, as each <code>catch</code> callback may provide their own HTTP response.</p>
+<p>To take this into account, you may check whether a response has already been provided by using the <a href="#/classes/::Crails::BuildingResponse/sent">BuildingResponse::sent</a> method, through the <a href="#/classes/::Crails::Context/response">Context::response</a> field.</p>
+<h5>Re-entrency</h5>
+<p>The catching mechanism won't trigger multiple times if you make consecutive calls to the <code>protect</code> method from the same thread. It will only trigger again whenever you're swaping from one thread to another.</p>

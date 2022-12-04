@@ -1,0 +1,32 @@
+<p>Implements <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Renderer" href="#/classes/::Crails::Renderer" target="_self">Crails::Renderer</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Template" href="#/classes/::Crails::Template" target="_self">Crails::Template</a> for JSON documents, including a Domain-Specific Language for generating JSON with the <a href="https://github.com/crails-framework/ecpp">ecpp</a> generator:</p>
+<pre><code class="language-c++">json(&quot;key&quot;, &quot;value&quot;);
+
+json_array(&quot;array&quot;, std::vector&lt;int&gt;{
+  1, 2, 3, 4
+});
+
+json_map(&quot;map&quot;, std::map&lt;std::string, std::string&gt;{
+  {&quot;1&quot;, &quot;One&quot;}, {&quot;2&quot;, &quot;Two&quot;}, {&quot;3&quot;, &quot;Three&quot;}
+});
+</code></pre>
+<p>This template would result in the following JSON document:</p>
+<pre><code class="language-json">{&quot;key&quot;:&quot;value&quot;,&quot;array&quot;:[1,2,3,4],&quot;map&quot;:{&quot;1&quot;:&quot;One&quot;,&quot;2&quot;:&quot;Two&quot;,&quot;3&quot;:&quot;Three&quot;}}
+</code></pre>
+<p>When generating object arrays or object maps, use a callback with <code>json_array</code> or <code>json_map</code>:</p>
+<pre><code class="language-c++">std::vector&lt;int&gt; array = std::vector&lt;int&gt;{1,2,3,4};
+std::map&lt;std::string, std::string&gt; map = std::map&lt;std::string, std::string&gt;{
+  {&quot;1&quot;, &quot;One&quot;}, {&quot;2&quot;, &quot;Two&quot;}, {&quot;3&quot;, &quot;Three&quot;}
+};
+
+// END LINKING
+
+json_array(&quot;custom_array&quot;, array, [&amp;](int value)
+{
+  json(&quot;number&quot;, value);
+});
+
+json_map(&quot;custom_map&quot;, map, [&amp;](int value)
+{
+  json(&quot;number&quot;, value);
+});
+</code></pre>

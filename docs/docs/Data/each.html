@@ -1,0 +1,36 @@
+<p>Loops over the direct children of the current node, calling the parameter <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::function" href="" target="_self">std::function</a> for each of them.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: 1, \&quot;b\&quot;: 2, \&quot;c\&quot;: 3});
+Data node = root.as_data();
+
+node.each([](Data child)
+{
+  cout &lt;&lt; child.as&lt;int&gt;() &lt;&lt; ' ' &lt;&lt; endl;
+  return true;
+});
+cout &lt;&lt; endl;
+// prints: 1 2 3
+</code></pre>
+<p>The callback can break the loop by returning <code>false</code>:</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: 1, \&quot;b\&quot;: 2, \&quot;c\&quot;: 3});
+Data node = root.as_data();
+
+node.each([](Data child)
+{
+  cout &lt;&lt; child.as&lt;int&gt;() &lt;&lt; ' ';
+  return child.as&lt;int&gt; &lt; 2;
+});
+cout &lt;&lt; endl;
+// prints: 1 2
+</code></pre>
+<p>Also works to iterate over arrays:</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;[1,2,3]&quot;);
+Data node = root.as_data();
+
+node.each([](Data child)
+{
+  cout &lt;&lt; child.as&lt;int&gt;() &lt;&lt; ' ';
+  return true;
+});
+cout &lt;&lt; endl;
+// prints: 1 2 3
+</code></pre>

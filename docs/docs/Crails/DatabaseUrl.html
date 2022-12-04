@@ -1,0 +1,26 @@
+<p>Parses a database URL and provides an easy access to each individual fragment through the <code>type</code>, <code>hostname</code>, <code>username</code>, <code>password</code> and <code>database_name</code> attributes.</p>
+<p>Example:</p>
+<pre><code class="language-c++">#include &lt;crails/database_url.hpp&gt;
+#include &lt;iostream&gt;
+
+using namespace std;
+using namespace Crails;
+
+int main()
+{
+  DatabaseUrl url(&quot;pgsql://user:password@localhost:1234/dbname&quot;);
+
+  cout &lt;&lt; url.type // pgsql
+       &lt;&lt; url.username // user
+       &lt;&lt; url.password // password
+       &lt;&lt; url.hostname // localhost
+       &lt;&lt; url.port // 1234
+       &lt;&lt; url.database_name // dbname
+       &lt;&lt; endl;
+  return 0;
+}
+</code></pre>
+<p>Components are not all mandatory. The bare minimum would include a scheme, hostname and port:</p>
+<pre><code class="language-c++">DatabaseUrl(&quot;redis://localhost:4321&quot;);
+</code></pre>
+<p>When the URL is malformed, throws <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::exception" href="" target="_self">std::exception</a>.</p>

@@ -1,0 +1,18 @@
+<p>Helper to generate a create or update form for a Model from Crails MVC pattern.</p>
+<pre><code class="language-c++">&lt;%= form_for&lt;Article&gt;(article, &quot;/articles&quot;) yields %&gt;
+  &lt;textarea name=&quot;content&quot;&gt;&lt;/textarea&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;send&quot; /&gt;
+&lt;% yields-end %&gt;
+</code></pre>
+<p>For a persistant model (saved in database), this will generate the following html:</p>
+<pre><code class="language-html">&lt;form action=&quot;/articles/{article id}&quot; method=&quot;put&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;csrf-token&quot; value=&quot;{generated csrf token}&quot; /&gt;
+  &lt;textarea name=&quot;content&quot;&gt;&lt;/textarea&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;send&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<p>For a non-persistent model, the following will be generated instead:</p>
+<pre><code class="language-html">&lt;form action=&quot;/articles&quot; method=&quot;post&quot;&gt;
+  ...
+&lt;/form&gt;
+</code></pre>

@@ -1,0 +1,49 @@
+<p>Defines a pattern to match in a URI, as well as a policy or function defining how matching HTTP requests shall be treated.</p>
+<p>A rule can be created with three parameters:</p>
+<ul>
+<li>A regex pattern, used to match request URIs</li>
+<li>A redirection URL, where the query will be proxied to</li>
+<li>A rule type, defining how the redirection will happen</li>
+</ul>
+<h3>Path matching</h3>
+<p>When a request URI matches a provided pattern, what comes next in the URI will also be forwarded to the remote host.</p>
+<p>For instance, if your Rule is defined as:</p>
+<pre><code class="language-c++">Rule(&quot;^/local-path&quot;, &quot;https://duckduckgo.com&quot;)
+</code></pre>
+<p>And you received the following request:</p>
+<pre><code>GET /local-path?q=Hello%20World HTTP/1.1
+</code></pre>
+<p>Then the proxy request will target <code>https://duckduckgo?q=Hello%20World</code>.</p>
+<h3>Rule types</h3>
+<h4>Redirect rules</h4>
+<p>With redirect rules, the client receives a <code>302 temporary redirect</code> responses that sends them towards another URL specified by the rule.</p>
+<p>Example:</p>
+<pre><code class="language-c++">const ProxyRequestHandler::Rules ProxyRequestHandler::rules = {
+  Rule(&quot;^/local-path&quot;, &quot;https://duckduckgo.com&quot;, Crails::Redirect302)
+};
+</code></pre>
+<h4>Proxy rules</h4>
+<p>Proxy rules are very different: with proxy rules, your Server will actually run the request on its own, before forwarding the remote host response to the client.</p>
+<p>Example:</p>
+<pre><code class="language-c++">const ProxyRequestHandler::Rules ProxyRequestHandler::rules = {
+  Rule(&quot;^/local-path&quot;, &quot;https://duckduckgo.com&quot;, Crails::Proxy)
+};
+</code></pre>
+<h3>Advanced rules</h3>
+<p>For more specific use cases, you can also create a <code>Rule</code> with your own <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::function<ProxyRequest (const HttpRequest &, const std::smatch &)>" href="#/typedef/std::function<ProxyRequest (const HttpRequest &, const std::smatch &)>" target="_self">ProxyRequestHandler::RuleSolver</a>, like this:</p>
+<pre><code class="language-c++">const ProxyRequestHandler::Rules ProxyRequestHandler::rules = {
+  Rule(
+    &quot;^/local-path&quot;,
+    [](const HttpRequest&amp; request, const std::smatch&amp; matches)
+    {
+      return ProxyRequest(
+        HttpVerb::get,
+        &quot;duckduckgo.com&quot;,
+        443,
+        matches.suffix())
+          .with_ssl()
+    }
+  )
+};
+</code></pre>
+<p>This example reproduces the default behavior for Rules: we reproduce the client request by using whatever came after the detected pattern as the <em>URI path</em>.</p>

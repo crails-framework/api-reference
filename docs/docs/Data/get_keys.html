@@ -1,0 +1,8 @@
+<p>Returns the keys of all the direct children of the current node.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b\&quot;: 21, \&quot;c\&quot;: 42}}&quot;);
+Data node = root[&quot;a&quot;].as_data();
+
+node.get_keys(); // returns {&quot;b&quot;,&quot;c&quot;}
+
+root.as_data().get_keys(); // returns {&quot;a&quot;}
+</code></pre>

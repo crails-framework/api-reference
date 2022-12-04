@@ -1,0 +1,28 @@
+<p>Returns a node by index. It can be used to iterate over a list of nodes:</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;first\&quot;: 1, \&quot;second\&quot;: 2, \&quot;third\&quot;: 3}&quot;);
+Data node = root.as_data();
+
+for (int i = 0 ; i &lt; node.count() ; ++i)
+{
+  Data node_at = node.at(i);
+  cout &lt;&lt; node_at.get_key() &lt;&lt; &quot; -&gt; &quot; &lt;&lt; node_at.as&lt;int&gt;() &lt;&lt; endl;
+}
+// prints
+//  first -&gt; 1
+//  second -&gt; 2
+//  third -&gt; 3
+</code></pre>
+<p>It's also the only way to iterate over an array node, where sub-nodes have no key:</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;array\&quot;:[ 1, 2, 3]});
+Data node = root[&quot;array&quot;];
+
+for (int i = 0 ; i &lt; node.count() ; ++i)
+{
+  Data node_at = node.at(i);
+  cout &lt;&lt; node_at.get_key() &lt;&lt; &quot; -&gt; &quot; &lt;&lt; node_as&lt;int&gt;() &lt;&lt; endl;
+}
+// prints
+//  -&gt; 1
+//  -&gt; 2
+//  -&gt; 3
+</code></pre>

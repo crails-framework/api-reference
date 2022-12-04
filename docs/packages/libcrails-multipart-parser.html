@@ -1,0 +1,11 @@
+<p>Loads <code>multipart/form-data</code> request bodies into <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Params" href="#/classes/::Crails::Params" target="_self">Crails::Params</a> with an implementation of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">Crails::RequestParser</a>.</p>
+<p>Adds file upload support to the <a href="https://crails-framework.github.io/website/request_pipeline/">Request Pipeline</a>:</p>
+<pre><code class="language-c++">...
+#include &lt;crails/request_parsers/multipart.hpp&gt;
+
+void Crails::Server::initialize()
+{
+  ...
+  add_request_parser(new RequestMultipartParser);
+}
+</code></pre>

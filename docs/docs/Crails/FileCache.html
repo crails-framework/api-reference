@@ -1,0 +1,10 @@
+<p>Loads file from the filesystem, and caches them until <code>garbage_collect</code> is called. The <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::FileCache::Lock" href="#/classes/::Crails::FileCache::Lock" target="_self">FileCache::Lock</a> class should be used
+as a <a href="https://stackoverflow.com/questions/31365013/what-is-scopeguard-in-c">scope guard</a> to ensure thread safety when interacting
+with this class.</p>
+<p>Requested files are loaded into memory if they haven't been already. Subsequent requests for the same file will fetch
+the file diretly from memory, which will speed up your application considerably if you often need to consult the same
+files.</p>
+<p>The Crails server provides an instance of <code>FileCache</code> available using the <code>Crails::Server::get_file_cache</code> method. This instance
+is <em>never</em> subject to garbage collection, as the amount of files present in your <em>public folder</em> is finite and supposedly should
+not take up to much space in memory.</p>
+<p>If you intend to use <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::FileCache" href="#/classes/::Crails::FileCache" target="_self">FileCache</a> for other purposes, don't forget to call on the <code>garbage_collect</code> method once in a while.</p>

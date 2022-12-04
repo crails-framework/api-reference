@@ -1,0 +1,21 @@
+<p>Simple interface for encrypting <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a> using OpenSSL.</p>
+<p>Example:</p>
+<pre><code class="language-c++">#incude &lt;crails/message_digest.hpp&gt;
+
+int main(int argc, const char** argv)
+{
+  Crails::MessageDigest digest(EVP_sha512());
+  std::string result;
+
+  for (int i = 1 ; i &lt; argc ; ++i)
+    digest &lt;&lt; argv<a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::i" href="" target="_self">i</a>;
+  digest &gt;&gt; result;
+  std::cout &lt;&lt; resutl &lt;&lt; std::endl;
+  return 0;
+}
+</code></pre>
+<p>The first argument of the default constructor may either be a pointer to a <code>EVP_MD</code> structure, which contains the
+implementation of a cipher. Examples be <a href="https://www.openssl.org/docs/man1.1.1/man3/EVP_md5.html">md5</a>, <a href="https://www.openssl.org/docs/man1.1.1/man3/EVP_sha256.html">sha</a>,
+<a href="https://www.openssl.org/docs/man3.0/man3/EVP_ripemd160.html">ripemd</a>, etc.</p>
+<p>You may also pass a string as parameter to MessageDigest's constructor. In which case, it will try to find
+a cipher using <a href="https://www.openssl.org/docs/manmaster/man3/EVP_get_digestbyname.html">EVP_get_digestbyname</a>.</p>

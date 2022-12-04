@@ -1,0 +1,53 @@
+<p>Represents the parameters of an HTTP query as an arbitrarily deeply neested tree of values. <code>Params</code> extends on the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::DataTree" href="#/classes/::DataTree" target="_self">DataTree</a> class, using the same API to access its contents.</p>
+<h5>Params within the Crails Framework</h5>
+<p><code>Params</code> objects are typically provided by a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Crails::Context</a> or a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::ActionController" href="#/classes/::Crails::ActionController" target="_self">Crails::ActionController</a>:</p>
+<pre><code class="language-c++">// Using Context
+void MyRequestHandler::operator()(Crails::Context&amp; context, std::function&lt;void(bool)&gt; callback)
+{
+  const Crails::Params&amp; params = context.params;
+
+  if (params[&quot;number&quot;].as&lt;int&gt;() &gt; 50)
+  {
+    context.response.set_response(Crails::HttpStatus::ok, &quot;Hello, world!&quot;);
+    callback(true);
+  }
+  else
+    callback(false);
+}
+
+// Using Controllers
+class MyController : public Crails::Controller
+{
+public:
+  MyController(Crails::Context&amp; context) : Controller(context) {}
+
+  void show()
+  {
+    if (params[&quot;number&quot;].as&lt;int&gt;() &gt; 50)
+      render(TEXT, &quot;Hello world!&quot;);
+  }
+};
+</code></pre>
+<h5>How data is added to Params</h5>
+<p>What will be aggregated within a <code>Params</code> object depends on the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">RequestParser</a> implementations that have been added to your <a href="https://crails-framework.github.io/website/request_pipeline/">Request Pipeline</a>.</p>
+<p>For instance, when the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestUrlParser" href="#/classes/::Crails::RequestUrlParser" target="_self">RequestUrlParser</a> is enabled, URL parameters will be aggregated:</p>
+<pre><code class="language-c++">// GET /path?param=value&amp;number=51 HTTP/1.1
+void inspect_params(Crails::Params&amp; params)
+{
+  cout &lt;&lt; params[&quot;param&quot;].as&lt;std::string&gt;() &lt;&lt; endl; // prints: value
+  cout &lt;&lt; params[&quot;number&quot;].as&lt;std::string&gt;() &lt;&lt; endl; // prints: 51
+}
+</code></pre>
+<h5>File uploads</h5>
+<p>The <code>Params</code> object also holds references to uploaded files. File uploads can be handled by the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestMultipartParser" href="#/classes/::Crails::RequestMultipartParser" target="_self">RequestMultipartParser</a>.</p>
+<p>The uploaded files can be accessed using the field name that was used by the client using <code>get_upload</code>:</p>
+<pre><code class="language-c++">// For &lt;input type=&quot;file&quot; name=&quot;myfile&quot; /&gt;:
+Params::File* file = params.get_upload(&quot;myfile&quot;);
+
+if (file != nullptr)
+  std::filesystem::copy_file(file.temporary_path, &quot;/var/www/persistent-storange/myfile&quot;);
+</code></pre>
+<p>You can also access the list of all the files uploaded within the query using <code>get_files</code>:</p>
+<pre><code class="language-c++">for (const Params::File&amp; file : params.get_files())
+  std::filesystem::copy_file(file.temporary_path, &quot;/var/www/persistent-storage/&quot; + file.name);
+</code></pre>

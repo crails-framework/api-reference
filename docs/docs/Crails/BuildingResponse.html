@@ -1,0 +1,2 @@
+<p>Represents the transient state of an HTTP repsonse that may be sent to a client at any moment. It wraps a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::response<boost::beast::http::string_body>" href="#/typedef/boost::beast::http::response<boost::beast::http::string_body>" target="_self">HttpResponse</a> object, and can progressively edit it until the <code>send</code> method gets called.</p>
+<p>After calling the <code>send</code> method, any changes applied on the BuildingResponse won't reach the client anymore.</p>

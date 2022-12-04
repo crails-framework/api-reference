@@ -1,0 +1,124 @@
+<p>Text-based serializer, providing a concise way to exchange messages over HTTP, with an Object-Oriented API making it easy to serialize and unserialize:</p>
+<h5>Serializing simple types</h5>
+<h6>Serializing</h6>
+<pre><code class="language-c++">OArchive out;
+long long variableA = 64;
+std::string variableB = &quot;Hello, world!&quot;;
+
+out &amp; variableA &amp; variableB;
+</code></pre>
+<h6>Unserializing</h6>
+<pre><code class="language-c++">IArchive in;
+in.set_data(out.as_string());
+long long variableA;
+std::string variableB;
+
+in &amp; variableA &amp; variableB;
+</code></pre>
+<h6>Supported types</h6>
+<p>Types that are natively serializable include:</p>
+<pre><code>bool
+char
+int
+long
+short
+unsigned char
+unsgined long
+unsigned int
+unsigned short
+std::string
+double
+long double
+long long
+unsigned long long
+</code></pre>
+<p>Some standard containers are also supported:</p>
+<pre><code>std::list
+std::vector
+std::set
+std::map
+</code></pre>
+<p>Containers will work with any serializable type, including custom ones.</p>
+<h6>Pointers</h6>
+<p>Pointers and smart pointers are supported as well, although there are some specifics you need to know before serializing and unserializing data using pointers.</p>
+<p>Archives will only allocate pointers using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::shared_ptr" href="" target="_self">std::shared_ptr</a> or <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::unique_ptr" href="" target="_self">std::unique_ptr</a> types. Other pointers types, you must allocate on your own. If a null pointer is used in an unserializing process, an exception will be thrown.</p>
+<p>Serializing null pointers is tolerated, but it is not a great practice: unserializing the data won't result in a null pointer, but rather in an uninitialized value.</p>
+<p>Here are some valid examples:</p>
+<pre><code class="language-c++">OArchive out;
+IArchive in;
+
+// Valid use of pointers
+shared_ptr&lt;string&gt; out_value = make_shared&lt;string&gt;(&quot;Hello world&quot;);
+shared_ptr&lt;string&gt; in_value;
+
+out &amp; out_value;
+in.set_data(out.as_string());
+in &amp; in_value;
+
+// or:
+string out_value(&quot;Hello world&quot;);
+string* in_value = new string;
+
+out &amp; (&amp;out_value);
+in.set_data(out.as_string());
+in &amp; in_value;
+</code></pre>
+<p>And here are examples of what not to do:</p>
+<pre><code class="language-c++">OArchive out;
+IArchive in;
+
+// Using unallocated pointers
+string out_value(&quot;Hello world&quot;),
+string* in_value;
+
+out &amp; (&amp;out_value);
+in.set_data(out.as_string());
+in &amp; in_value; // Segmentation fault
+
+// Unserializing null pointers
+int* out_value = nullptr;
+int* in_value = new int;
+
+out &amp; out_value;
+in.set_data(out.as_string());
+in &amp; in_value; // in_value remains uninitialized
+</code></pre>
+<h5>Serializing custom types</h5>
+<p>You may also implement serializers for your own types, making it very straightforward to include or extract such types from an <code>Archive</code>. The simplest way to do so is by using the <code>ARCHIVE_SERIALIZER</code> macro:</p>
+<pre><code class="language-c++">#include &lt;libtext-archive/archivable.hpp&gt;
+
+struct MyType : public Archivable // &lt;- add the Archivable component
+{
+  long long variableA;
+  std::string variableB;
+
+  ARCHIVE_SERIALIZER(variableA &amp; variableB)
+};
+</code></pre>
+<p>Sometimes, you may need to implement more complex custom serializers. In these cases, you may replace the <code>ARCHIVE_SERIALIZER</code> with implementations for the two <code>serialize</code> virtual methods from <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Archivable" href="#/classes/::Archivable" target="_self">Archivable</a>:</p>
+<pre><code class="language-c++">struct MyType : public Archivable
+{
+  long long variableA;
+  std::string variableB;
+
+  void serialize(OArchive&amp; archive) const override
+  {
+    bool hasVariableB = variableB == &quot;undefined&quot;;
+
+    archive &amp; variableA &amp; hasVariableB;
+    if (hasVariableB)
+      archive &amp; true &amp; variableB;
+  }
+
+  void serialize(IArchive&amp; archive) override
+  {
+    bool hasVariableB;
+
+    archive &amp; variableA &amp; hasVariableB;
+    if (hasVariableB)
+      archive &amp; variableB;
+    else
+      variableB = &quot;undefined&quot;;
+  }
+};
+</code></pre>

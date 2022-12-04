@@ -1,0 +1,7 @@
+<p>Filter a list of keys, and returns only the ones that don't match a direct child of the current node.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;hello\&quot;: 1, \&quot;world\&quot;: 2}&quot;);
+Data node = root.as_data();
+std::vector&lt;std::string&gt; missing_keys;
+
+missing_keys = node.find_missing_keys({&quot;hello&quot;, &quot;world&quot;, &quot;!&quot;}); // returns {&quot;!&quot;}
+</code></pre>

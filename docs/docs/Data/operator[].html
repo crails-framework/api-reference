@@ -1,0 +1,7 @@
+<p>Returns a node based on its name. The node is returned and probed deeper, even if it doesn't exist: when modified, missing nodes will be recursively created.</p>
+<pre><code class="language-c++">DataTree root;
+Data node = root[&quot;recursively&quot;][&quot;get&quot;][&quot;a&quot;][&quot;node&quot;];
+
+node = 42;
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints {&quot;recursively&quot;:{&quot;get&quot;:{&quot;a&quot;:{&quot;node&quot;:42}}}}
+</code></pre>

@@ -1,0 +1,75 @@
+<hr>
+<h2>title: Crails Framework</h2>
+<h2>What's Crails</h2>
+<p>Crails is a C++ web-application framework that includes everything needed to create database-backed web applications according to the <a href="https://en.wikipedia.org/wiki/Model-view-controller">Model-View-Controller (MVC)</a> pattern.</p>
+<p>Understanding the MVC pattern is key to understanding Crails. MVC divides your application into three layers: Model, View and Controller, each with a specific responsability.</p>
+<h3>Model layer</h3>
+<p>The Model layer represents the domain model (such as Account, Product, Person, Post, etc.) and encapsulates the business logic specific to your application. In Crails, database-backed model classes are implemented using the <a href="https://www.codesynthesis.com/products/odb/">ODB orm</a>. ODB allows you to present the data from database rows as objects and embellish these data objects with business logic methods.</p>
+<h3>Controller layer</h3>
+<p>The Controller layer is responsible for handling incoming HTTP requests and providing a suitable response. Crails controllers can generate JSON, HTML, XML, or any type of response. Controllers load and manipulate models, and render view templates in order to generate the appropriate HTTP response. In Crails, incoming requests are routed by <code>Crails::Router</code> to an appropriate controller, and controller classes are derived from <code>Crails::Controller</code>.</p>
+<h3>View layer</h3>
+<p>The View layer is composed of &quot;templates&quot; that are responsible for providing appropriate representations of your application's resources. Templates can come in a variety of formats. Crails comes with modules for writing HTML or JSON templates with embedded C++ code. Views are typically rendered to generate a controller response or to generate the body of an email.</p>
+<h2>Framework and modules</h2>
+<p>Crails comes with a small variety of modules providing features commonly needed in web-applications.</p>
+<ul>
+<li><strong>crails-assets</strong> flags, compiles, minimizes and compresses your assets</li>
+<li><strong>crails-deploy</strong> deploys your application as a service on a remote server</li>
+<li><strong>crails-mail</strong> includes a mail client to generate and send <em>raw or html emails</em></li>
+<li><strong>crails-sync</strong> provides tools for server/client real-time messaging</li>
+<li><strong>crails-sidekix</strong> adds a service for simple <em>background task processing</em></li>
+<li><strong>crails-tests</strong> and <strong>crails-selenium</strong> help you implement unit and feature tests</li>
+<li><strong>crails-sentry</strong> handles server <em>errors monitoring</em> through <a href="http://sentry.io/">Sentry</a></li>
+</ul>
+<p>And many more modules, bringing support for user management, OAuth, xmlrpc, proxy, etc.</p>
+<h3>Code generation</h3>
+<p>Crails provides several code-generating tools, most notably with <strong>MetaRecord</strong> which provides a simple DSL for describing models:</p>
+<pre><code>add_include &quot;app/models/degree.hpp&quot;
+
+Model.add &quot;StudentGroup&quot;, header: &quot;app/models/student_group.hpp&quot; do
+  resource_name &quot;student_group&quot;
+  property &quot;std::string&quot;,    &quot;code&quot;
+  property &quot;std::string&quot;,    &quot;name&quot;,        validate: { required: true }, db: { type: &quot;TEXT&quot;, column: &quot;alt_name&quot; }
+  property &quot;unsigned short&quot;, &quot;course&quot;,      validate: { required: true }
+  property &quot;bool&quot;,           &quot;is_category&quot;, db: { default: true }
+
+  has_one &quot;::StudentGroup&quot;, &quot;parent&quot;, dependent: :destroy, validate: { self_reference: true }
+  has_one &quot;::Degree&quot;,       &quot;degree&quot;, joined: false, read_only: true
+end
+</code></pre>
+<h3>Frontend C++ development</h3>
+<p>Crails integrates <strong>Comet.cpp</strong>, which uses <a href="https://www.leaningtech.com/pages/cheerp.html">Cheerp</a> to provide a frontend C++ MVC-based development framework. While Cheerp compiles your C++ code into JavaScript and WASM, Comet.cpp provides C++ utilities for view templating, interacting with the DOM, making HTTP queries, and so on...</p>
+<pre><code>#include &lt;comet/element.hpp&gt;
+#include &lt;comet/globals.hpp&gt;
+
+void webMain()
+{
+  Comet::Element header_element(&quot;h1&quot;);
+
+  Comet::body &gt; header_element.text(&quot;Hello world!&quot;);
+}
+</code></pre>
+<h2>Getting started</h2>
+<p><strong>1</strong>. Install Crails using one of the following guides:</p>
+<ul>
+<li><a href="https://crails-framework.github.io/website/getting-started/linux.html">Linux, FreeBSD, MacOS</a></li>
+<li>Windows (not yet available)</li>
+</ul>
+<p><strong>2</strong>. At the command prompt, create a new Crails application:</p>
+<pre><code>crails new --name my_application
+</code></pre>
+<p>Where &quot;my_application&quot; is your application's name.</p>
+<p><strong>3</strong>. Change directory to <code>my_application</code> and compile the application:</p>
+<pre><code>cd my_application
+crails build
+</code></pre>
+<p><strong>4</strong>. Run the server</p>
+<pre><code>build/server
+</code></pre>
+<p><strong>5</strong>. Go to <code>http://localhost:3000</code> and you'll see: &quot;Welcome to your new Crails Application&quot;.</p>
+<h3>What next ?</h3>
+<p>Follow our guides to start developing your application:</p>
+<ul>
+<li><a href="https://crails-framework.github.io/getting-started">Getting Started with Crails</a></li>
+<li><a href="https://crails-framework.github.io/website/tutorials">Crails Guides</a></li>
+<li>The API Documentation</li>
+</ul>

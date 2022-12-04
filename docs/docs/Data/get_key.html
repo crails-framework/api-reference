@@ -1,0 +1,7 @@
+<p>Returns the key of the current node as a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a>.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b\&quot;: {\&quot;c\&quot;: 1} } }&quot;);
+
+cout &lt;&lt; root[&quot;a&quot;][&quot;b&quot;] &lt;&lt; endl; // prints b
+cout &lt;&lt; root[&quot;a&quot;][&quot;b&quot;][&quot;c&quot;] &lt;&lt; endl; // prints c
+cout &lt;&lt; root[&quot;a&quot;][&quot;undefined&quot;] &lt;&lt; endl; // prints undefined
+</code></pre>

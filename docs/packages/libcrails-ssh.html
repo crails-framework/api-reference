@@ -1,0 +1,45 @@
+<p>Object-Oriented wrapper for <a href="https://www.libssh.org">libssh</a> with stream redirection.</p>
+<h4>Examples</h4>
+<h5>Executing commands</h5>
+<pre><code class="language-c++">#include &lt;crails/ssh/session.hpp&gt;
+#include &lt;sstream&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+  Crails::Ssh::Session ssh;
+  std::stringstream stream;
+
+  ssh.should_accept_unknown_hosts(true);
+  ssh.authentify_with_pubkey(&quot;password&quot;);
+  ssh.connect(&quot;ubuntu&quot;, &quot;192.168.0.15&quot;);
+
+  // Store the output of stdout and stderr into stream
+  ssh.exec(&quot;ls -lah&quot;, stream);
+
+  // Display the output of the remote stdout and stderr to the current process' stdout and stderr
+  ssh.exec(&quot;ls -lah&quot;, std::cout, std::cerr);
+
+  return 0;
+}
+</code></pre>
+<h5>Uploading files</h5>
+<pre><code class="language-c++">#include &lt;crails/ssh/session.hpp&gt;
+
+int main()
+{
+  Crails::Ssh::Session ssh;
+
+  ssh.should_accept_unknown_hosts(true);
+  ssh.authentify_with_password(&quot;password&quot;);
+  ssh.connect(&quot;ubuntu&quot;, &quot;192.168.0.15&quot;);
+
+  // Creates the file &quot;/home/ubuntu/filename&quot; with contents &quot;Hello, world!&quot;
+  auto scp = ssh.make_scp_session(&quot;/home/ubuntu&quot;, Crails::Ssh::WriteMode);
+  scp-&gt;push_text(&quot;Hello, world!&quot;, &quot;filename&quot;);
+
+  // Outputs the contents of &quot;/home/ubuntu/filename&quot; to the standard output
+  ssh.make_scp_session(&quot;/home/ubuntu/filename&quot;, Crails::Ssh::ReadMode)
+    -&gt;pull_file(std::cout);
+}
+</code></pre>

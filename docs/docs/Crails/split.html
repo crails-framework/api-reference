@@ -1,0 +1,29 @@
+<p>Splits a string in several pieces delimited by a separator. Parameters are:</p>
+<ul>
+<li><em>value</em> to split, typically using <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a></li>
+<li><em>separator</em> given as a <code>char</code></li>
+<li><em>repetitions</em> a boolean value specifying whether the function should generate empty fragments when the value contains consecutive separators. Set to <code>true</code> to include empty fragments. Defaults to <code>false</code></li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;crails/utils/split.hpp&gt;
+
+int main()
+{
+  using namespace std;
+  using namespace Crails;
+
+  // {&quot;a&quot;, &quot;few&quot;, &quot;words&quot;}
+  list&lt;string&gt; parts = split(&quot;a few words&quot;, ' ');
+
+  // {&quot;hello&quot;, &quot;&quot;, &quot;&quot;, &quot;world&quot;, &quot;!&quot;}
+  list&lt;string&gt; parts = split(&quot;hello   world !&quot;);
+
+  // returning std::vector instead:
+  vector&lt;string&gt; parts = split&lt;string, vector&lt;string&gt;&gt;(&quot;hello world !&quot;);
+
+  return 0;
+}
+</code></pre>

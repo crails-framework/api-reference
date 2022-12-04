@@ -1,0 +1,20 @@
+<p>The <code>DataTree</code> class provides a data structure that stores an arbitrarily deeply nested tree of values, indexed at each level by some key. Each node of the tree stores its own value, or a list of subnodes and their keys.</p>
+<p>The content of a <code>DataTree</code> can be explored using <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Data" href="#/classes/::Data" target="_self">Data</a> nodes, referenced either by key or index:</p>
+<pre><code class="language-c++">DataTree root;
+Data node = root[&quot;path&quot;][&quot;to&quot;][&quot;a&quot;][&quot;node&quot;];
+
+node = &quot;Hello, world!&quot;;
+</code></pre>
+<p>A <code>DataTree</code> can be populated programmatically, or can be loaded from JSON and XML strings or files:</p>
+<pre><code class="language-c++">DataTree root;
+
+root.from_json_file(&quot;/tmp/file.json&quot;);
+// or
+root.from_json(&quot;[1,2,3]&quot;);
+</code></pre>
+<p>Two implementations of <code>DataTree</code> co-exists:</p>
+<ul>
+<li>The <em>Crails</em> implementation is based on <a href="https://www.boost.org/doc/libs/master/doc/html/property_tree.html">boost's property_tree library</a></li>
+<li>The <em>Comet</em> implementation is based on JavaScript's <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></li>
+</ul>
+<p>This documentation targets the <em>Crails</em> implementation, but both provide the same API, except for the methods allowing access to the underlying <em>property tree</em> or <em>JavaScript Object</em>.</p>

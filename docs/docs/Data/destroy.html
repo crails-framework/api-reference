@@ -1,0 +1,10 @@
+<p>Removes the current node and all its children from the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::DataTree" href="#/classes/::DataTree" target="_self">DataTree</a>.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b\&quot;: {\&quot;c\&quot;: 42} } }&quot;);
+Data node = root.as_data();
+
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints {&quot;a&quot;:{&quot;b&quot;:{&quot;c&quot;:42}}}
+
+node[&quot;a&quot;][&quot;b&quot;].destroy();
+
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints {&quot;a&quot;: &quot;&quot;}
+</code></pre>

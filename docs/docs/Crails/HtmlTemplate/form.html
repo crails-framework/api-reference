@@ -1,0 +1,11 @@
+<p>Helper for generating forms. Supports the CSRF protection system from <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::CsrfController" href="#/classes/::Crails::CsrfController" target="_self">CsrfController</a>.</p>
+<pre><code class="language-html">&lt;%= form({{&quot;action&quot;,&quot;/search&quot;},{&quot;method&quot;,&quot;post&quot;}}) yields %&gt;
+  &lt;input type=&quot;text&quot; name=&quot;query&quot; /&gt;
+&lt;% yields-end %&gt;
+</code></pre>
+<p>Which results to:</p>
+<pre><code class="language-html">&lt;form action=&quot;search&quot; method=&quot;post&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;csrf-token&quot; value=&quot;{generated value}&quot; /&gt;
+  &lt;input type=&quot;text&quot; name=&quot;query&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
