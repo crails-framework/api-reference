@@ -1,0 +1,1 @@
+`ActionController` is the basis for all the controllers from the `libcrails-controllers` module. It brings a simple MVC API to interact with [Crails::Context] and populates its [Crails::BuildingResponse] before it is sent to the client.

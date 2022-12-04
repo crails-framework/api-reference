@@ -1,0 +1,1 @@
+Interface for implementing commands and sub-commands in Crails CLI applications.

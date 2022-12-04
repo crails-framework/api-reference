@@ -1,0 +1,1 @@
+Override this method to be implement custom behaviours triggered when the socket closes.

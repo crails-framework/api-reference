@@ -1,0 +1,1 @@
+Returns a reference to the underlying `ptree` child that the current node points to. See the [property_tree documentation](https://www.boost.org/doc/libs/master/doc/html/property_tree.html) to learn more about this.

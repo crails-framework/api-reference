@@ -1,0 +1,1 @@
+Returns an identifier for the connection, composed of the client's IP address, the current [thread id](https://en.cppreference.com/w/cpp/thread/thread/id), and a counter for the number of connections that happened in the given thread.

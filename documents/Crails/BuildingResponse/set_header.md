@@ -1,0 +1,1 @@
+Sets a header on the [HttpResponse]. The targeted [HTTP header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) can be specified either as a [std::string] or using [HttpHeader]. The value will be provided as [std::string].

@@ -1,0 +1,1 @@
+Initializes [LogRotate] for a Crails application using the options defined for the Crails [Server]. It can be initialized with [ProgramOptions] for a more direct approach, or with `int argc, const char** argv` for implementations that merely wish to reproduce the behaviour of a Crails server with their own [Logger].

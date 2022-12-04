@@ -1,0 +1,1 @@
+Convenience implementation of [std::shared_ptr] that avoid crashes when trying to dereference null pointers. Instead of triggering undefined behaviors, trying to dereference a null pointer using `safe_ptr` will throw a [NullPointerException].

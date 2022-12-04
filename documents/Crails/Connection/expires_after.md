@@ -1,0 +1,1 @@
+Sets the timeout interval for the connection. The connection will forcefully close after the specified amount of time has passed without having received or sent any data to the client.

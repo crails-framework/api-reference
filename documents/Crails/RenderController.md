@@ -1,0 +1,1 @@
+Controller component that renders content to a [BuildingResponse] using a [Renderer]. While the `RenderController` is mostly designed to provide a simple API for rendering view templates, it also provides helpers to set a response's body from a [std::string] or a [Data] object.

@@ -1,0 +1,1 @@
+Implementation of the [RequestHandler] interface that forwards queries to the [Router], and exists the [Request Pipeline](https://crails-framework.github.io/website/request_pipeline) if the router was able to trigger an _action_ from the given [Context].

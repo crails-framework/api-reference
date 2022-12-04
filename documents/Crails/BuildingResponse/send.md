@@ -1,0 +1,1 @@
+Asynchronously sends the response to the client. This method can only be called once per instance of `BuildingResponse`. Once it's been called, further modifications to the `BuildingResponse` won't reach the client.

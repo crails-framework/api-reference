@@ -1,0 +1,1 @@
+Loads `application/xml` or `text/xml` request bodies into [Crails::Params] with an implementation of [Crails::RequestParser] leveraging [boost::property_tree](https://www.boost.org/doc/libs/1_80_0/doc/html/property_tree.html)'s XML parser.
