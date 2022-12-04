@@ -1,0 +1,39 @@
+<p>Route handler for controllers based on the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::ActionController" href="#/classes/::Crails::ActionController" target="_self">ActionController</a>.</p>
+<p>Usage:</p>
+<pre><code class="language-c++">struct MyController : public Crails::ActionController
+{
+  MyController(Crails::Context&amp; context) : Crails::ActionController(context) {}
+
+  void action_method()
+  {
+    render(TEXT, params[&quot;param&quot;]);
+  }
+};
+
+void Router::initialize()
+{
+  using namespace Crails;
+  using namespace std;
+
+  match(&quot;GET&quot;, &quot;/route/:param&quot;, [](Context&amp; context, function&lt;void()&gt; callback)
+  {
+    ActionRoute&lt;MyController&gt;::trigger(context, &amp;MyController::action_method, callback);
+  });
+
+  // Alternatively:
+  match(&quot;GET&quot;, &quot;/alt-route/:param&quot;,
+    bind(
+      ActionRoute&lt;MyController&gt;::trigger,
+      placeholders::_1,
+      &amp;MyController::action_method,
+      placeholders::_2
+    )
+  );
+}
+</code></pre>
+<p>The <code>ActionRoute</code> header also defines the <code>match_action</code> macro to facilitate route declaration:</p>
+<pre><code class="language-c++">void Router::initialize()
+{
+  match_action(&quot;GET&quot;, &quot;/route/:param&quot;, MyController, action_method);
+}
+</code></pre>

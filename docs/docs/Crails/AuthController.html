@@ -1,0 +1,19 @@
+<p>Controller component for access-protected content, where the access is granted to users that have an opened <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Session" href="#/classes/::Crails::Session" target="_self">Session</a>. The <code>USER</code> model should implement the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::AuthenticableModel" href="#/classes/::Crails::AuthenticableModel" target="_self">AuthenticableModel</a> component.</p>
+<p>A <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Session" href="#/classes/::Crails::Session" target="_self">Session</a> object is provided using the <code>user_session</code> protected attribute.</p>
+<p>Usage example:</p>
+<pre><code class="language-c++">struct MyUser : public AuthenticableModel
+{
+  std::string username;
+};
+
+struct MyController : public Crails::AuthController&lt;MyUser, Crails::Odb::Controller&gt;
+{
+  MyController(Crails::Context&amp; context) : Crails::AuthController&lt;MyUser, Crails::Controller&gt;(context) {}
+
+  void action_method()
+  {
+    if (initialize_current_user())
+      render(TEXT, &quot;Authenticated user: &quot; + user_session.get_current_user()-&gt;username);
+  }
+};
+</code></pre>

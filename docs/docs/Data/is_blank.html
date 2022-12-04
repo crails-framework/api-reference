@@ -1,0 +1,9 @@
+<p>Returns <code>true</code> if the current node is undefined or empty.</p>
+<pre><code class="language-c++">DataTree data = DataTree().from_json(&quot;{\&quot;empty\&quot;: &quot;&quot;, \&quot;null\&quot;: null}&quot;);
+
+cout &lt;&lt; data[&quot;empty&quot;].is_blank() &lt;&lt; endl; // prints 1
+
+cout &lt;&lt; data[&quot;undefined&quot;].is_blank() &lt;&lt; endl; // prints 1
+
+cout &lt;&lt; data[&quot;null&quot;].is_blank() &lt;&lt; endl; // prints 0
+</code></pre>

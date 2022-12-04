@@ -1,0 +1,9 @@
+<p>Returns <code>true</code> if a node is defined, <code>false</code> otherwise.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;:1, \&quot;b\&quot;:null}&quot;);
+Data node = root.as_data();
+
+node.exists(); // returns true
+node[&quot;a&quot;].exists(); // returns true
+node[&quot;b&quot;].exists(); // returns true
+node[&quot;c&quot;].exists(); // returns false
+</code></pre>

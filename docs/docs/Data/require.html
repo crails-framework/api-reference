@@ -1,0 +1,7 @@
+<p>Returns <code>true</code> when all the keys specified as parameters are defined in the current node.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;hello\&quot;: 1, \&quot;world\&quot;: 2});
+Data node = root.as_data();
+
+node.require({&quot;hello&quot;, &quot;world&quot;}); // evaluates to true
+node.require({&quot;hello&quot;, &quot;world&quot;, &quot;!&quot;}); // evaluates to false
+</code></pre>

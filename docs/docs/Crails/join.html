@@ -1,0 +1,28 @@
+<p>Concatenates a iterable list as a single string. The parameters are :</p>
+<ul>
+<li>iterator from</li>
+<li>iterator to</li>
+<li>separator (defaults to a single space)</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-c++">#include &lt;crails/utils/join.hpp&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+  using namespace std;
+  using namespace Crails;
+  vector&lt;string&gt; parts{&quot;Hello&quot;, &quot;world&quot;, &quot;!&quot;);
+
+  cout &lt;&lt; join(parts.begin(), parts.end()) &lt;&lt; endl; // prints &quot;Hello world !&quot;
+
+  cout &lt;&lt; join(parts.begin(), parts.end(), '-') &lt;&lt; endl; // prints &quot;Hello-world-!&quot;
+
+  cout &lt;&lt; join(parts.begin(), parts.end(), &quot;%20&quot;) &lt;&lt; endl; // prints &quot;Hello%20world%20!&quot;
+
+  cout &lt;&lt; join(parts.begin(), parts.end(), &quot;&quot;) &lt;&lt; endl; // prints &quot;Helloworld!&quot;
+
+  return 0;
+}
+</code></pre>

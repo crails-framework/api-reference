@@ -1,0 +1,9 @@
+<p>Implementation of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestHandler" href="#/classes/::Crails::RequestHandler" target="_self">RequestHandler</a> that tries to respond to a query by looking up files in the application's <em>public</em> directory (matching a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Server" href="#/classes/::Crails::Server" target="_self">Server</a>'s <code>public_path</code> attribute).</p>
+<p><code>RequestFileHandler</code> supports the following HTTP headers:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding">Accept-Encoding</a> header for the <code>brotli</code> and <code>gzip</code> formats, and will serve the compressed version of a file if it is available. Compressed files should share the same name as their uncompressed version, with the suffix <code>gz</code> for gzip or <code>br</code> for brotli.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since">If-Modified-Since</a>, which will respond with <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/304">304 Not Modified</a> if the file hasn't been modified since the last visit.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range">Range</a>, which allows clients to request for specific chunks of a file, rather than the entire file.</li>
+</ul>
+<p>If caching is enabled, requested files will also be stored in memory to speed up further request. Caching files that are frequently requested by clients will significantly improve your response time. But if you use it to serve big files, it may also have a significat memory footprint.</p>
+<p>You may toggle caching by calling the <code>set_cache_enabled</code> method. Caching is enabled by default.</p>

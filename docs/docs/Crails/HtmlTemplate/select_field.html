@@ -1,0 +1,27 @@
+<p>Generates a &lt;select&gt; element.</p>
+<pre><code class="language-c++">&lt;%
+typedef int OptionType;
+
+std::map&lt;OptionType, std::string&gt; options{
+  {0, &quot;&quot;},
+  {1, &quot;First option&quot;},
+  {2, &quot;Second option&quot;}
+};
+
+OptionType selected = 0;
+%&gt;
+
+&lt;%= select_field&lt;OptionType&gt;(&quot;field-name&quot;, options, selected) %&gt; 
+</code></pre>
+<p>Generates the following element:</p>
+<pre><code class="language-html">&lt;select name=&quot;field-name&quot;&gt;
+  &lt;option value=&quot;=&quot; selected&gt;&lt;/option&gt;
+  &lt;option value=&quot;1&quot;&gt;First option&lt;/option&gt;
+  &lt;option value=&quot;2&quot;&gt;Second option&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p>You may also specify custom attributes using the last optional parameter:</p>
+<pre><code class="language-c++">&lt;%= select_field&lt;OptionType&gt;(&quot;field-name&quot;, options, selected, {
+  {&quot;class&quot;, &quot;select-style&quot;}
+}) %&gt; 
+</code></pre>

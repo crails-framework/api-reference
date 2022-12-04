@@ -1,0 +1,9 @@
+<p>Reset the connection to a single database that was started within the single thread. This method can be useful to clear up dynamically created databases:</p>
+<pre><code class="language-c++">Crails::Odb::Database&amp; sql_database = CRAILS_DATABASE_FROM_SETTINGS(Crails::Odb, &quot;new_db&quot;, {
+  {&quot;type&quot;, &quot;pgsql&quot;},
+  {&quot;name&quot;, &quot;mydatabase&quot;}
+});
+
+Crails::databases.cleanup_database(sql_database);
+</code></pre>
+<p>If the database handle specified as parameter wasn't created in the current thread, will throw <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::boost_ext::out_of_range" href="#/classes/::boost_ext::out_of_range" target="_self">boost_ext::out_of_range</a>.</p>

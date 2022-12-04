@@ -1,0 +1,12 @@
+<p>Builds an <a href="https://developer.mozilla.org/fr/docs/Glossary/URI">URI</a> from a list of arguments. Each parameter will be URI-encoded and appended as a fragment of the newly built URI:</p>
+<pre><code>#include &lt;crails/url.hpp&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+  using namespace std;
+  cout &lt;&lt; Crails::uri(&quot;resource&quot;, 51) &lt;&lt; endl; // prints &quot;/resources/51&quot;
+  cout &lt;&lt; Crails::uri(&quot;&amp;ncod&amp;d content?&quot;) &lt;&lt; endl; // prints &quot;/%26ncod%26d%20content%3F&quot;
+  return 0;
+}
+</code></pre>

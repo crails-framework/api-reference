@@ -1,0 +1,20 @@
+<p>Interface for <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">RequestParser</a> implementations that need the body of an <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::request<boost::beast::http::string_body>" href="#/typedef/boost::beast::http::request<boost::beast::http::string_body>" target="_self">HttpRequest</a> to be available before performing their task.</p>
+<p>The <a href="https://crails-framework.github.io/website/request_pipeline/">Request Pipe</a> may start evaluating an <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::request<boost::beast::http::string_body>" href="#/typedef/boost::beast::http::request<boost::beast::http::string_body>" target="_self">HttpRequest</a> right when the headers of the request are fetch. At this point, the body of the request may not have been entirely received.</p>
+<p>Implementations of <code>BodyParser</code> are expected to provide an implementation for the <code>body_received</code> method, which receives as parameters a reference to the current <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a>, and the body of the request presented as <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a>.</p>
+<p>When a parser needs to consult the body of a request, it <em>must</em> call the <code>wait_for_body</code> method with the current <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a> and a callback. Once the body is available, the <code>body_received</code> virtual method will be called, followed by the callback sent as parameter.</p>
+<p>Example:</p>
+<pre><code class="language-c++">class MyBodyParser : public Crails::BodyParser
+{
+  void operator()(
+    Crails::Context&amp; context,
+    std::function&lt;void(Crails::RequestParser::Status)&gt; callback) const
+  {
+    wait_for_body(context, std::bind(callback, Crails::RequestParser::Stop));
+  }
+
+  void body_received(Crails::Context&amp; context, const std::string&amp; body) const
+  {
+    // parse the request body over here
+  }
+};
+</code></pre>

@@ -1,0 +1,17 @@
+<p>Loads <code>application/json</code> request bodies into <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Params" href="#/classes/::Crails::Params" target="_self">Crails::Params</a> with an implementation of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">Crails::RequestParser</a>.</p>
+<p>For instance, the following document:</p>
+<pre><code class="language-json">{
+  &quot;hash&quot;: {
+    &quot;key&quot;: &quot;value&quot;
+  },
+  &quot;array&quot;: [1, 2, 3]
+}
+</code></pre>
+<p>Will be accessed with <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Params" href="#/classes/::Crails::Params" target="_self">Crails::Params</a> as such:</p>
+<pre><code class="language-c++">void output_json(const Crails::Params&amp; params)
+{
+  std::string value = params[&quot;hash&quot;][&quot;key&quot;].as&lt;std::string&gt;();
+
+  std::vector&lt;int&gt; array = params[&quot;array&quot;].to_vector&lt;int&gt;();
+}
+</code></pre>

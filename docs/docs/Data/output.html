@@ -1,0 +1,6 @@
+<p>Prints debug information about the current node to the specified <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::ostream" href="" target="_self">std::ostream</a>. The content is serialized as JSON.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: 42}&quot;);
+Data node = root.as_data();
+
+node.output(std::cerr); // prints {&quot;a&quot;:42} to the standard error stream
+</code></pre>

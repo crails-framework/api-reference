@@ -1,0 +1,33 @@
+<p>Returns a value from <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::map<std::string, boost::any>" href="#/typedef/std::map<std::string, boost::any>" target="_self">SharedVars</a>, or fallbacks to a default value.</p>
+<p>Parameters:</p>
+<ul>
+<li><a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::map<std::string, boost::any>" href="#/typedef/std::map<std::string, boost::any>" target="_self">SharedVars</a> object,</li>
+<li>Name of the variable to fetch</li>
+<li>Default value to use when the variable does not exist</li>
+</ul>
+<p>This function will throw <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::bad_any_cast" href="" target="_self">boost::bad_any_cast</a> exception if the variable exists, but the requested type didn't match the variable type.</p>
+<p>Examples:</p>
+<pre><code class="language-c++">#include &lt;crails/any_cast.hpp&gt;
+#include &lt;crails/shared_vars.hpp&gt;
+#include &lt;string&gt;
+
+int main()
+{
+  int number = 12;
+  Crails::SharedVars vars{
+    {&quot;hello-world&quot;, &quot;Hello world&quot;},
+    {&quot;as-string&quot;, std::string(&quot;Hello world&quot;)},
+    {&quot;as-int&quot;, number}
+  };
+
+  Crails::defaults_to&lt;const char*&gt;(vars, &quot;hello-world&quot;, &quot;&quot;); // returns a pointer to &quot;Hello world&quot;
+
+  Crails::defaults_to&lt;std::string&gt;(vars, &quot;as-string&quot;, &quot;&quot;); // returns a copy of the &quot;as-string&quot; string
+
+  Crails::defaults_to&lt;std::string&gt;(vars, &quot;undefined&quot;, &quot;defaults&quot;); // returns &quot;defaults&quot; as a string
+
+  Crails::defaults_to&lt;int&gt;(vars, &quot;as-string&quot;, 21); // throw boost::bad_any_cast
+
+  return 0;
+}
+</code></pre>

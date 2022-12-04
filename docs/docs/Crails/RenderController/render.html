@@ -1,0 +1,46 @@
+<p>The render method is designed to conclude a transaction with a client. When called, it will set the body on your <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::response<boost::beast::http::string_body>" href="#/typedef/boost::beast::http::response<boost::beast::http::string_body>" target="_self">HttpResponse</a> and directly send it to the client. Note that changes you make to the response afterwards will not reach the client.</p>
+<p>The render method also sets the <code>Content-Type</code> header on your response.</p>
+<p>There are two ways to use the render method:</p>
+<h4>Rendering a view template</h4>
+<p>If you have defined view templates for your <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Renderer" href="#/classes/::Crails::Renderer" target="_self">Renderer</a>, you can render them by calling the <code>render</code> method with the template's name:</p>
+<pre><code class="language-c++">void MyController::show()
+{
+  render(&quot;resources/show&quot;);
+}
+</code></pre>
+<h5>Shared variables</h5>
+<p>The <code>RenderController</code> provides its own <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::map<std::string, boost::any>" href="#/typedef/std::map<std::string, boost::any>" target="_self">SharedVars</a> instance, which will be provided to all the templates rendered through the controller.</p>
+<pre><code class="language-c++">void MyController::show()
+{
+  vars[&quot;variable&quot;] = (int)42;
+  render(&quot;resources/show&quot;);
+}
+</code></pre>
+<p>If you want to provide additional variables for your template, you may also specify those as a parameter:</p>
+<pre><code class="language-c++">void MyController::show()
+{
+  render(&quot;resources/show&quot;, {
+    {&quot;variable&quot;, (int)42}
+  });
+}
+</code></pre>
+<h4>Rendering custom data</h4>
+<p>If you are not using a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Renderer" href="#/classes/::Crails::Renderer" target="_self">Renderer</a>, you can also provide your data directly as a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a>:</p>
+<pre><code class="language-c++">void MyController::show()
+{
+  render(TEXT, &quot;rendering text&quot;);
+
+  render(JSON, &quot;{ \&quot;key\&quot;: \&quot;value\&quot; }&quot;);
+}
+</code></pre>
+<p>Or a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Data" href="#/classes/::Data" target="_self">Data</a> object:</p>
+<pre><code class="language-c++">void MyController::show()
+{
+  DataTree data;
+
+  data[&quot;key&quot;] = &quot;value&quot;;
+  render(TEXT, data[&quot;key&quot;]); // will render: value
+
+  render(JSON, data); // will render: {&quot;key&quot;:&quot;value&quot;}
+}
+</code></pre>

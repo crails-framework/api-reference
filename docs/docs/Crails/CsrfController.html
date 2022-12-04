@@ -1,0 +1,19 @@
+<p>Controller component providing tools to implement protection against <a href="https://fr.wikipedia.org/wiki/Cross-site_request_forgery">Cross-Site Request Forgery</a>.
+When enabled, it will create a variable into the <code>session</code> <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Data" href="#/classes/::Data" target="_self">Data</a> object provided by the controller.</p>
+<p>When CSRF security is enabled, any HTTP requests using the <code>POST</code>, <code>PUT</code>, <code>PATCH</code> or <code>DELETE</code> verb <em>must</em> include the CSRF token from the last request they made as a <em>parameter</em>, or their request will be dismissed.
+What a <em>parameter</em> can be depends on your <a href="https://crails-framework.github.io/website/request_pipeline/">request parsers</a>: URL parameters, variables in a <code>application/x-www-urlencoded</code> body, etc.</p>
+<p>You may read the CSRF token in the following fashion:</p>
+<pre><code class="language-c++">void MyController::show()
+{
+  const std::string csrf_token = session[&quot;csrf-token&quot;].as&lt;std::string&gt;();
+}
+</code></pre>
+<p>When CSRF security is not relevant, you may disable it by overloading <code>must_protect_from_forgery</code>:</p>
+<pre><code class="language-c++">class MyController : public Crails::Controller
+{
+public:
+  MyController(Crails::Context&amp; context) : Crails::Controller(context) {}
+
+  bool must_protect_from_forgery() const override { return false; } // disable CSRF protection
+};
+</code></pre>

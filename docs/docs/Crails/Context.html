@@ -1,0 +1,14 @@
+<p>The <code>Context</code> object is at the core of the Crails Framework, and represents a Request/Response transaction with an HTTP client. It provides both a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Params" href="#/classes/::Crails::Params" target="_self">Params</a> and a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::BuildingResponse" href="#/classes/::Crails::BuildingResponse" target="_self">BuildingResponse</a> as attributes, so you can inspect the content of a request, and provide the details of your response.</p>
+<p>You may access the request and response objects as provided by <a href="https://www.boost.org/doc/libs/1_73_0/libs/beast/doc/html/beast/introduction.html">Beast</a> through the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Connection" href="#/classes/::Crails::Connection" target="_self">Connection</a> object.</p>
+<p>If the <code>Context</code> object gets destroyed before you manually send a response, then the response will be sent as-is.</p>
+<p>This is important for asynchronous application: when performing an asynchronous response, you must keep a reference to the request <code>Context</code> at least until the response is ready to be sent. This can be easily achieved by keeping an instance of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::shared_ptr" href="" target="_self">std::shared_ptr</a> around, using:</p>
+<pre><code class="language-c++">void handle_async_request(Crails::Context&amp; context)
+{
+  std::shared_ptr&lt;Crails::Context&gt; ptr = context.shared_from_this();
+
+  your_asynchronous_method(<a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::ptr" href="" target="_self">ptr</a>() // capturing shared_ptr as a copy
+  {                                // will maintain the context alive
+    ptr-&gt;response.send();          // at least until the lambda returns
+  });
+}
+</code></pre>

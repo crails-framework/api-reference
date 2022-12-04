@@ -1,0 +1,41 @@
+<p>Return a subset of an iterable list of objects or object pointers.</p>
+<p>Parameters:</p>
+<ul>
+<li>A reference to a list of objects</li>
+<li>A method pointer to apply on each object in the list. The method should be marked as <code>const</code>, and should return <code>bool</code>.</li>
+</ul>
+<p>The variadic arguments for this function templates, if there are any, will be used as arguments sent to the method pointer.</p>
+<p>Examples:</p>
+<pre><code class="language-c++">#include &lt;crails/utils/arrays.hpp&gt;
+#include &lt;memory&gt;
+
+struct Item
+{
+  Item(int a) : value(a) {}
+  int value;
+  bool collectible() const { return value % 2 == 0; }
+  bool still_collectible(int i) const { return value % i == 0; }
+};
+
+int main()
+{
+  using namespace std;
+  using namespace Crails;
+
+  vector&lt;Item&gt; listA = {
+    Item{1}, Item{2}, Item{3}, Item{4}, Item{5}
+  };
+
+  vector&lt;Item&gt; listB = collect(listA, &amp;Item::collectible); // returns {Item{2}, Item{4}}
+
+  vector&lt;Item&gt; listC = collect(listA, &amp;Item::still_collectible, 3); // returns {Item{3}}
+
+  vector&lt;shared_ptr&lt;Item&gt;&gt; listD = {
+    make_shared&lt;Item&gt;(1), make_shared&lt;Item&gt;(2)
+  };
+
+  vector&lt;Item&gt; listE = collect(listD, &amp;Item::collectible); // returns {Item{2}}
+
+  return 0;
+}
+</code></pre>

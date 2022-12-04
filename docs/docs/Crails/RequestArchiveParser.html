@@ -1,0 +1,13 @@
+<p>Implementation of the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">RequestParser</a> interface designed to intercept requests using the <code>crails/archive</code> format. The archive's content will be stored in the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Params" href="#/classes/::Crails::Params" target="_self">Params</a> object under the <code>archive_data</code> key.</p>
+<p>You may then initialize your <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::IArchive" href="#/classes/::IArchive" target="_self">IArchive</a> objects as following:</p>
+<pre><code class="language-c++">void Router::initialize()
+{
+  match(&quot;POST&quot;, &quot;/archive&quot;, [](Crails::Context&amp; context, std::function&lt;void()&gt; callback)
+  {
+    IArchive archive;
+    std::string raw_data = params[&quot;archive_data&quot;].as&lt;std::string&gt;();
+
+    archive.set_data(raw_data);
+  });
+}
+</code></pre>

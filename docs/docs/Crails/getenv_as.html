@@ -1,0 +1,20 @@
+<p>Returns an environment variable as the specified type.</p>
+<p>Parameters:</p>
+<ul>
+<li>variable name</li>
+<li>default value</li>
+</ul>
+<p>Example:</p>
+<pre><code>#include &lt;crails/getenv.hpp&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+  using namespace std;
+  using namespace Crails;
+
+  cout &lt;&lt; getenv_as&lt;int&gt;(&quot;UNDEFINED_VARIABLE_NAME&quot;, 21) &lt;&lt; endl; // prints &quot;21&quot;
+  cout &lt;&lt; getenv_as&lt;string&gt;(&quot;USER&quot;, &quot;&quot;) &lt;&lt; endl; // prints the username from your environment
+  return 0;
+}
+</code></pre>

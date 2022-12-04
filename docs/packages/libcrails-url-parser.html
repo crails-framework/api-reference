@@ -1,0 +1,11 @@
+<p>Loads URL query parameters into <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Params" href="#/classes/::Crails::Params" target="_self">Crails::Params</a> with an implementation of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">Crails::RequestParser</a>.</p>
+<p>Add it to the request pipeline:</p>
+<pre><code class="language-c++">...
+#include &lt;crails/request_parsers/url_parser.hpp&gt;
+
+void Crails::Server::initialize()
+{
+  ...
+  add_request_parser(new RequestUrlParser);
+}
+</code></pre>

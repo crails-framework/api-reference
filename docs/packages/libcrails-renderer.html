@@ -1,0 +1,53 @@
+<p>Provides the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Renderer" href="#/classes/::Crails::Renderer" target="_self">Crails::Renderer</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderTarget" href="#/classes/::Crails::RenderTarget" target="_self">Crails::RenderTarget</a> interfaces. Applications can then register renderers for various <code>Content-Type</code> target, and for each of those, register a series of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="void (*)(const Crails::Renderer &, Crails::RenderTarget &, Crails::SharedVars &)" href="#/typedef/void (*)(const Crails::Renderer &, Crails::RenderTarget &, Crails::SharedVars &)" target="_self">Crails::Renderer::Generator</a> callbacks.</p>
+<p>The <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="void (*)(const Crails::Renderer &, Crails::RenderTarget &, Crails::SharedVars &)" href="#/typedef/void (*)(const Crails::Renderer &, Crails::RenderTarget &, Crails::SharedVars &)" target="_self">Crails::Renderer::Generator</a> callbacks then generate the content of a template into a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderTarget" href="#/classes/::Crails::RenderTarget" target="_self">Crails::RenderTarget</a> which can be a string, a file, an HTTP response, or any of your own implementations of RenderTarget.</p>
+<p>Example of Renderer implementation:</p>
+<pre><code class="language-c++">class MyRenderer : public Crails::Renderer
+{
+public:
+  MyRenderer()
+  {
+    templates.emplace(&quot;my-view&quot;, [](
+      const Crails::Renderer&amp; renderer,
+      Crails::RenderTarget&amp; target,
+      Crails::SharedVars&amp; properties)
+    {
+      target.set_header(Crails::HttpHeader::content_type, &quot;text/plain&quot;);
+      target.set_body(&quot;Hello, world!&quot;);
+    });
+  }
+
+  bool can_render(const std::string&amp; accept, const std::string&amp; view) const override
+  {
+    sregex_iterato
+    return accept.find(&quot;text/plain&quot;) != std::string::npos
+        &amp;&amp; templates.find(view) != templates.end();
+  }
+
+  void render_template(
+    const std::string&amp; view,
+    Crails::RenderTarget&amp; target,
+    Crails::SharedVars&amp; properties) const override
+  {
+    auto generator = templates.find(view);
+
+    if (generator != templates.end())
+      generator-&gt;second(*this, target, properties);
+    else
+      throw Crails::MissingTemplate(view);
+  }
+};
+</code></pre>
+<p>Adding this renderer to a Crails application would imply modifying the <code>config/renderers.cpp</code> file:</p>
+<pre><code class="language-c++">void Renderer::initialize()
+{
+  renderers.push_back(new MyRenderer);
+}
+</code></pre>
+<p>You'll then be able to use the renderer through a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderController" href="#/classes/::Crails::RenderController" target="_self">Crails::RenderController</a>, or manually:</p>
+<pre><code class="language-c++">auto* renderer = Renderer::pick_renderer(&quot;my-view&quot;, &quot;text/plain&quot;);
+Crails::RenderString target;
+
+if (renderer != nullptr)
+  renderer-&gt;render_template(&quot;my-view&quot;, target, {});
+std::cout &lt;&lt; target.c_str() &lt;&lt; std::endl;
+</code></pre>

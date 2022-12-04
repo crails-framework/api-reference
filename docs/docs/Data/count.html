@@ -1,0 +1,7 @@
+<p>Counts the amount of children nodes for the current node.</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;array\&quot;: [1,2,3]&quot;);
+Data node = root.as_data();
+
+cout &lt;&lt; node.count() &lt;&lt; endl; // prints 1
+cout &lt;&lt; node[&quot;array&quot;].count() &lt;&lt; endl; // prints 3
+</code></pre>

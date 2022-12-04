@@ -1,0 +1,22 @@
+<p>Recursively merges the contents of the parameter node or tree into the current node.</p>
+<pre><code class="language-c++">DataTree rootA = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b\&quot;: {\&quot;c\&quot;: 42} } }&quot;);
+DataTree rootB = DataTree().from_json(&quot;{\&quot;d\&quot;: {\&quot;e\&quot;: {\&quot;f\&quot;: 42} } }&quot;);
+Data node = rootA.as_data();
+
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints: {&quot;a&quot;:{&quot;b&quot;:{&quot;c&quot;:42}}}
+
+node.merge(rootB);
+
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints {&quot;a&quot;:{&quot;b&quot;:{&quot;c&quot;:42}},&quot;d&quot;:{&quot;e&quot;:{&quot;f&quot;:42}}}
+
+</code></pre>
+<p>Merging a node with itself or one of its parents is safe:</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b\&quot;: {\&quot;c\&quot;: 42} } }&quot;);
+Data node = root.as_data();
+
+node.merge(node); // that does nothing
+
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints: {&quot;a&quot;:{&quot;b&quot;:{&quot;c&quot;:42}}}
+node[&quot;a&quot;][&quot;b&quot;].merge(node[&quot;a&quot;]); // merging a node with one of its own parents
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints: {&quot;a&quot;:{&quot;b&quot;:{&quot;c&quot;:42,&quot;b&quot;:{&quot;c&quot;:42}}}}
+</code></pre>

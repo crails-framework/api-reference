@@ -1,0 +1,34 @@
+<p>Handles logging for Crails applications. Each log is provided with a <code>log_level</code>. The logger is thread-safe, and can aggregate the logs from several threads into a single <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::ostream" href="" target="_self">std::ostream</a>.</p>
+<p>Usage:</p>
+<pre><code class="language-c++">#include &lt;crails/logger.hpp&gt;
+
+using namespace Crails;
+
+int main()
+{
+  logger &lt;&lt; Logger::Info &lt;&lt; &quot;Logging text&quot; &lt;&lt; Logger::endl;
+  return 0;
+}
+</code></pre>
+<p>Use the <code>Logger::Info</code>, <code>Logger::Debug</code>, <code>Logger::Warning</code>, <code>Logger::Error</code> symbols to change the <code>log_level</code> in your current thread.</p>
+<p>Afterwards, anything sent to the <code>operator&lt;&lt;</code> will be written in a buffer. Sending <code>Logger::endl</code> or switching <code>log_level</code> will flush the buffer and print its content on the output stream (by default, stdout or stderr).</p>
+<h5>Performance</h5>
+<p>Logging can take a toll on performance, and there are no good ways to save from it. The best way to improve performance is simply to avoid useless logging, which you can do in two different ways.</p>
+<h6>Log levels</h6>
+<p>The logger only displays log that have a lower level than the global <code>log_level</code> that was set for the logger.</p>
+<p>In order, the levels are:</p>
+<pre><code>Debug
+Info
+Warning
+Error
+</code></pre>
+<p>You can set the log level by changing the <code>Crails::Logger::log_level</code> global variable, typically present in the <code>config/logger.cpp</code> file.</p>
+<h6>Lambdas</h6>
+<p>When using log levels to filter logs, you may execute useless code. For instance, if you want to log a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Data" href="#/classes/::Data" target="_self">Data</a> object using the JSON format, you would do something like this:</p>
+<pre><code class="language-c++">logger &lt;&lt; Logger::Info &lt;&lt; data.to_json() &lt;&lt; Logger::endl;
+</code></pre>
+<p>In this example, assuming the <code>log_level</code> is set to <code>Error</code>, nothing will print on the screen... however, <code>data.to_json()</code> will be called, pointlessly taking CPU time.</p>
+<p>You can fix that by using lambdas instead:</p>
+<pre><code class="language-c++">logger &lt;&lt; Logger::Info &lt;&lt; ([]() { return data.to_json(); }) &lt;&lt; Logger::endl;
+</code></pre>
+<p>In this alternative version, <code>data.to_json()</code> will only be called when the log level isn't filtered out, saving precious time for production environments which may ignore <code>Info</code> logs.</p>

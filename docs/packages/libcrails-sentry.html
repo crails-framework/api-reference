@@ -1,0 +1,22 @@
+<p>Adds error monitoring by capturing exceptions and sending them to a <a href="https://sentry.io">Sentry</a> server.</p>
+<h5>How to use</h5>
+<p>To add the plugin to your crails application, you can use the <code>crails</code> command:</p>
+<pre><code class="language-sh">crails plugins sentry install
+</code></pre>
+<p>You may then add an exception catcher in <code>config/request_pipe.cpp</code>:</p>
+<pre><code class="language-c++">void Server::initialize_request_pipe()
+{
+  ...
+  exception_catcher.add_exception_catcher&lt;std::exception&amp;&gt;(
+    <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::this" href="" target="_self">this</a>(Crails::Context&amp; context, const std::exception&amp; error)
+    {
+      std::stringstream stream;
+
+      Sentry::capture_exception(context.params.as_data(), error);
+      stream &lt;&lt; boost_ext::trace(error); // if the exception type supports it, generates a backtrace
+      exception_catcher.default_exception_handler(context, typeid(error).name(), error.what(), stream.str());
+    }
+  );
+}
+</code></pre>
+<p>To configure the Sentry server that'll be collecting your errors, see the <code>config/sentry.cpp</code> file.</p>

@@ -1,0 +1,36 @@
+<p>Implements <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Renderer" href="#/classes/::Crails::Renderer" target="_self">Crails::Renderer</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Template" href="#/classes/::Crails::Template" target="_self">Crails::Template</a> for HTML documents, including several helpers for building form
+HTML templates can be generated using the <a href="https://github.com/crails-framework/ecpp">ecpp</a> generator:</p>
+<pre><code class="language-html">#include &quot;model.hpp&quot;
+Article&amp; @article;
+// END LINKING
+&lt;h1&gt;&lt;%= article.get_title() %&gt;&lt;/h1&gt;
+&lt;%= tag(&quot;p&quot;, {{&quot;class&quot;,article.get_css_class()}}) do %&gt;
+  &lt;%= html_escape(article.get_content()) %&gt;
+&lt;% end %&gt;
+&lt;/p&gt;
+</code></pre>
+<p>The <code>libcrails-html-views</code> package can be added to a Crails project by using the following command:</p>
+<pre><code class="language-sh">crails templates formats --add html
+</code></pre>
+<p>This will add <code>libcrails-html-views</code> to your <code>CMakeLists.txt</code>, and register <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::HtmlRenderer" href="#/classes/::Crails::HtmlRenderer" target="_self">Crails::HtmlRenderer</a> in the <code>config/renderers.cpp</code> file.</p>
+<p>Once the package has been added to your project, the <code>crails build</code> command will use <a href="https://github.com/crails-framework/ecpp">ecpp</a> and generate templates from all the html files found in the various <code>views</code> folder of your application.</p>
+<p>For instance, a file located at <code>app/views/resource/show.html</code> could then be rendered like this:</p>
+<pre><code class="language-c++">void render(Crails::RenderTarget&amp; target, Article&amp; article)
+{
+  Crails::SharedVars vars;
+
+  vars[&quot;article&quot;] = &amp;article;
+  Renderer::render(&quot;resources/show&quot;, &quot;text/html&quot;, target, vars);
+}
+</code></pre>
+<p>Alternatively, in a class implementing <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderController" href="#/classes/::Crails::RenderController" target="_self">Crails::RenderController</a> or <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderController" href="#/typedef/::Crails::RenderController" target="_self">Crails::Controller</a>
+from <a href="#/packages/libcrails-controllers">libcrails-controllers</a>, you should render your template
+using the <code>RenderController::render</code> method:</p>
+<pre><code class="language-c++">void MyController::show(Article&amp; article)
+{
+  Crails::SharedVars properties;
+
+  vars[&quot;article&quot;] = &amp;article;
+  render(&quot;resources/show&quot;);
+}
+</code></pre>

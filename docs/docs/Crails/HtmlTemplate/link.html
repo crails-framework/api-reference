@@ -1,0 +1,12 @@
+<p>Helper method generating an HTML link in a concise manner:</p>
+<pre><code class="language-c++">&lt;%= link(&quot;http://duckduckgo.com&quot;, &quot;DuckDuckGo&quot;) %&gt;
+&lt;!-- Renders: &lt;a href=&quot;http://duckduckgo.com&quot;&gt;DuckDuckGo&lt;/a&gt; --&gt;
+</code></pre>
+<p>Extra HTML attributes can be provided as well:</p>
+<pre><code class="language-c++">&lt;%= link(&quot;https://duckduckgo.com&quot;, &quot;DuckDuckGo&quot;, {{&quot;class&quot;,&quot;btn&quot;}}) %&gt;
+</code></pre>
+<p>The <code>yields/yields-end</code> keywords are also supported:</p>
+<pre><code class="language-html">&lt;%= link(&quot;https://duckduckgo.com&quot;) yields %&gt;
+  &lt;i class=&quot;duck-icon&quot;&gt;&lt;/i&gt; DuckDuckGo
+&lt;% yields-end %&gt;
+</code></pre>

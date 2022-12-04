@@ -1,0 +1,27 @@
+<p>Template implementation for the <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton design pattern</a>. It can be used on its own,
+or with the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::SingletonInstantiator" href="#/classes/::SingletonInstantiator" target="_self">SingletonInstantiator</a>.</p>
+<p>Example:</p>
+<pre><code class="language-c++">// header
+#pragma once
+#include &lt;crails/utils/singleton.hpp&gt;
+
+class MyClass
+{
+  SINGLETON(MyClass)
+  MyClass(const std::string&amp; param1, float param2); // private constructor
+
+public:
+  void method();
+};
+
+// usage
+int main()
+{
+  MyClass::singleton::initialize(&quot;string param&quot;, 12.f);
+
+  MyClass::singleton::get()-&gt;method();
+
+  MyClass::singleton::finalize();
+  return 0;
+}
+</code></pre>

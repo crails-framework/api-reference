@@ -1,0 +1,70 @@
+{
+  "std": {
+    "filesystem": {
+      "path": "https://en.cppreference.com/w/cpp/filesystem/path"
+    },
+    "chrono": {
+      "duration": "https://en.cppreference.com/w/cpp/chrono/duration",
+      "time_point": "https://en.cppreference.com/w/cpp/chrono/time_point",
+      "system_clock": "https://en.cppreference.com/w/cpp/chrono/system_clock"
+    },
+    "vector": "https://en.cppreference.com/w/cpp/container/vector",
+    "list": "https://en.cppreference.com/w/cpp/container/list",
+    "set": "https://en.cppreference.com/w/cpp/container/set",
+    "map": "https://en.cppreference.com/w/cpp/container/map",
+    "unordered_map": "https://en.cppreference.com/w/cpp/container/unordered_map",
+    "string_view": "https://en.cppreference.com/w/cpp/string/basic_string_view",
+    "string": "https://en.cppreference.com/w/cpp/string/basic_string",
+    "wstring": "https://en.cppreference.com/w/cpp/string/basic_string",
+    "u8string": "https://en.cppreference.com/w/cpp/string/basic_string",
+    "u16string": "https://en.cppreference.com/w/cpp/string/basic_string",
+    "u32string": "https://en.cppreference.com/w/cpp/string/basic_string",
+    "shared_ptr": "https://en.cppreference.com/w/cpp/memory/shared_ptr",
+    "unique_ptr": "https://en.cppreference.com/w/cpp/memory/unique_ptr",
+    "weak_ptr": "https://en.cppreference.com/w/cpp/memory/weak_ptr",
+    "enable_shared_from_this": "https://en.cppreference.com/w/cpp/memory/enable_shared_from_this",
+    "pair": "https://en.cppreference.com/w/cpp/utility/pair",
+    "optional": "https://en.cppreference.com/w/cpp/utility/optional",
+    "function": "https://en.cppreference.com/w/cpp/utility/functional/function",
+    "exception": "https://en.cppreference.com/w/cpp/error/exception",
+    "regex": "https://en.cppreference.com/w/cpp/regex",
+    "mutex": "https://en.cppreference.com/w/cpp/thread/mutex",
+    "lock_guard": "https://en.cppreference.com/w/cpp/thread/lock_guard"
+  },
+
+  "boost": {
+    "any": "https://www.boost.org/doc/libs/master/doc/html/any.html",
+    "asio": {
+      "io_context": "https://www.boost.org/doc/libs/master/doc/html/boost_asio/reference/io_context.html",
+      "ip": {
+        "tcp": {
+          "endpoint": "https://www.boost.org/doc/libs/master/doc/html/boost_asio/reference/ip__tcp/endpoint.html",
+          "socket": "https://www.boost.org/doc/libs/master/doc/html/boost_asio/reference/ip__tcp/socket.html"
+        }
+      }
+    },
+    "beast": {
+      "error_code": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__error_code.html",
+      "flat_buffer": "https://www.boost.org/doc/libs/master/boost/beast/core/flat_buffer.hpp",
+      "tcp_stream": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__tcp_stream.html",
+      "http": {
+        "field": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__http__field.html",
+        "string_body": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__http__string_body.html",
+        "request": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__http__request.html",
+        "response": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__http__response.html",
+        "status": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__http__status.html",
+        "verb": "https://www.boost.org/doc/libs/master/libs/beast/doc/html/beast/ref/boost__beast__http__verb.html"
+      }
+    },
+    "program_options": {
+      "variables_map": "https://www.boost.org/doc/libs/master/doc/html/boost/program_options/variables_map.html",
+      "options_description": "https://www.boost.org/doc/libs/master/doc/html/boost/program_options/options_description.html"
+    },
+    "property_tree": {
+      "ptree": "https://www.boost.org/doc/libs/master/doc/html/property_tree.html"
+    },
+    "system": {
+      "error_code": "https://www.boost.org/doc/libs/master/boost/system/error_code.hpp"
+    }
+  }
+}

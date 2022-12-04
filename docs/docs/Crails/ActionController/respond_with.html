@@ -1,0 +1,24 @@
+<p>Sets a status on a response and immediately send it to the client. Example:</p>
+<pre><code class="language-c++">void MyController::show()
+{
+  respond_with(Crails::HttpStatus::not_found);
+}
+</code></pre>
+<p>The <code>respond_with</code> method concludes the transaction with the client, meaning that if you want to send a body along with the response, you must provide the body <em>before</em> calling <code>respond_with</code>:</p>
+<pre><code class="language-c++">// Valid implementation
+void MyController::show()
+{
+  response.set_header(Crails::HttpHeader::content_type, &quot;text/plain&quot;);
+  response.set_body(&quot;Oops ! Resource not found !&quot;);
+  respond_with(Crails::HttpStatus::not_found);
+}
+
+// Invalid implementation
+void MyController::show()
+{
+  respond_with(Crails::HttpStatus::not_found);
+  // The following lines will be ignored:
+  response.set_header(Crails::HttpHeader::content_type, &quot;text/plain&quot;);
+  response.set_body(&quot;Oops ! Resource not found !&quot;);
+}
+</code></pre>

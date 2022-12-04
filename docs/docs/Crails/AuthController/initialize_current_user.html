@@ -1,0 +1,2 @@
+<p>Attempts to initialize the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Session" href="#/classes/::Crails::Session" target="_self">Session</a> stored in the <code>user_session</code> attribute. If the client request didn't provide a data for an on-going session, the method returns <code>false</code> and calls <code>on_user_authenticated</code>.</p>
+<p>If the method returns <code>true</code>, you can safely call <code>user_session.get_current_user()</code> and expect it to return a valid pointer to one of your <code>USER</code> model.</p>

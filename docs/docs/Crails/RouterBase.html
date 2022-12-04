@@ -1,0 +1,41 @@
+<p>RouterBase is a template allowing you to quickly build routing systems for your application.</p>
+<p>The two template parameters for this class are:</p>
+<ul>
+<li><code>PARAMS</code>, defining the type that will store the route parameters. It's required to implement assignation of parameters through <code>operator[](const std::string&amp;)</code></li>
+<li><code>ACTION</code>, defining the object that will be stored for each route, and returned when one of those has matched an URI.</li>
+</ul>
+<p>Here's an example of a simple implementation:</p>
+<pre><code class="language-c++">typedef std::map&lt;std::string, std::string&gt; MyParams;
+typedef std::string MyAction;
+
+class MyRouter : public Crails::RouterBase&lt;MyParams, MyAction&gt;
+{
+};
+</code></pre>
+<p>To initialize such a router, you should add routes:</p>
+<pre><code class="language-c++">MyRouter router;
+
+router.match(&quot;/simple_route&quot;, MyAction(&quot;route1&quot;));
+router.match(&quot;/route/with/:param&quot;, MyAction(&quot;route2&quot;));
+</code></pre>
+<p>Afterwards, you'll be able to match routes using functions such as:</p>
+<pre><code class="language-c++">static void display_action_for(const MyRouter&amp; router, const std::string&amp; uri)
+{
+  MyParams params;
+  MyAction* action;
+
+  action = router.get_action(uri, params);
+  if (action != nullptr)
+    std::cout &lt;&lt; &quot;Found action &quot; &lt;&lt; *action &lt;&lt; std::endl;
+  else
+    std::cerr &lt;&lt; &quot;Action not found for uri &quot; &lt;&lt; uri &lt;&lt; std::endl;
+}
+</code></pre>
+<p>When a route matches, the <code>params</code> argument gets populated with the route parameters:</p>
+<pre><code class="language-c++">action = router.get_action(uri, params);
+if (action &amp;&amp; params.find(&quot;param&quot;) != params.end())
+{
+  std::string value = params.at(&quot;param&quot;);
+  std::cout &lt;&lt; &quot;Called a route with parameter `param`=&quot; &lt;&lt; value &lt;&lt; std::endl;
+}
+</code></pre>

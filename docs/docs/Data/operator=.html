@@ -1,0 +1,27 @@
+<p>Assigns a value to the current node. If the value has the <code>Data</code> type, then instead of changing the value of the current node, it changes the node which the <code>Data</code> object points to.</p>
+<p>Value assignment:</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b\&quot;: 1, \&quot;c\&quot;: 2 } }&quot;);
+Data b = root[&quot;a&quot;][&quot;b&quot;];
+Data c = root[&quot;a&quot;][&quot;c&quot;];
+
+cout &lt;&lt; b.as&lt;int&gt;() &lt;&lt; endl; // prints 1
+
+b = c.as&lt;int&gt;();
+
+cout &lt;&lt; b.as&lt;int&gt;() &lt;&lt; endl; // prints 2
+
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints {&quot;a&quot;:{&quot;b&quot;:2,&quot;c&quot;:2}}
+</code></pre>
+<p>Node assignment:</p>
+<pre><code class="language-c++">DataTree root = DataTree().from_json(&quot;{\&quot;a\&quot;: {\&quot;b\&quot;: 1, \&quot;c\&quot;: 2 } }&quot;);
+Data b = root[&quot;a&quot;][&quot;b&quot;];
+Data c = root[&quot;a&quot;][&quot;c&quot;];
+
+cout &lt;&lt; b.get_path() &lt;&lt; endl; // prints a.b
+
+b = c;
+
+cout &lt;&lt; b.get_path() &lt;&lt; endl; // prints a.c
+
+cout &lt;&lt; root.to_json() &lt;&lt; endl; // prints {&quot;a&quot;:{&quot;b&quot;:1,&quot;c&quot;:2}} (the data hasn't been modified)
+</code></pre>
