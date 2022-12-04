@@ -2,7 +2,7 @@
   "project": "Crails Framework",
   "logo": "https://crails-framework.github.io/website/images/logo.png",
   "docs": "documents",
-  "output": "dist",
+  "output": "docs",
   "inputs": [
     "../libcrails/libcrails/crails",
     "../libdatatree/libdatatree/crails",
