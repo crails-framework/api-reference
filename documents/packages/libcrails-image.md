@@ -1,0 +1,1 @@
+Helps you store and transform image files in a local storage and assign them to models, using libcrails-attachment and ImageMagick.

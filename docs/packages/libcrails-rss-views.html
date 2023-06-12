@@ -1,0 +1,43 @@
+<p>Implements <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="Crails::Rnederer" href="" target="_self">Crails::Rnederer</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Template" href="#/classes/::Crails::Template" target="_self">Crails::Template</a> for RSS documents, using XML templates generated using the <a href="https://github.com/crails-framework/ecpp">ecpp</a> generator:</p>
+<pre><code class="language-xml">#include &quot;model.hpp&quot;
+const std::vector&lt;Article&gt;&amp; @article_list;
+// END LINKING
+&lt;%= xml_header(&quot;UTF-8&quot;) %&gt;
+&lt;rss version=&quot;2.0&quot; xmlns:atom=&quot;http://www.w3.org/2005/Atom&quot;&gt;
+  &lt;channel&gt;
+    &lt;%= title(&quot;My RSS feed&quot;) %&gt;
+    &lt;%= link(&quot;http://localhost:3001/rss&quot;) %&gt;
+
+    &lt;% for (const auto&amp; article : article_list) do -%&gt;
+      &lt;item&gt;
+        &lt;%= guid(article.get_id()) %&gt;
+        &lt;%= title(article.get_title()) %&gt;
+        &lt;%= link(article.get_url()) %&gt;
+        &lt;%= description() yields %&gt;
+          &lt;img src=&quot;&lt;%= article.get_thumbnail_url() %&gt;&quot; /&gt;
+          &lt;p&gt;&lt;%= article.get_description() %&gt;&lt;/p&gt;
+        &lt;%= yields-end %&gt;
+      &lt;/item&gt;
+    &lt;% end -%&gt;
+  &lt;/channel&gt;
+&lt;/rss&gt;
+</code></pre>
+<p>The <code>libcrails-rss-views</code> package can be added to a Crails project by using the following command:</p>
+<pre><code class="language-sh">crails templates formats --add rss
+</code></pre>
+<p>A file located at <code>app/views/articles/index.rss</code> will then be rendered like this:</p>
+<pre><code class="language-c++">void render(Crails::RenderTarget&amp; target, const std::vector&lt;Article&gt;&amp; articles)
+{
+  Crails::SharedVars vars;
+
+  vars[&quot;article_list&quot;] = &amp;articles;
+  Renderer::render(&quot;articles/index&quot;, &quot;application/rss+xml&quot;, target, vars);
+}
+</code></pre>
+<p>Or from a Crails controller:</p>
+<pre><code class="language-c++">void MyController::index(const std::vector&lt;Article&gt;&amp; articles)
+{
+  vars[&quot;article_list&quot;] = &amp;articles;
+  render(&quot;articles/index&quot;);
+}
+</code></pre>

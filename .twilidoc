@@ -10,6 +10,8 @@
     "../libtext-archive/libtext-archive",
     "../libcrails-action/libcrails-action/crails",
     "../libcrails-archive/libcrails-archive/crails",
+    "../libcrails-attachment/libcrails-attachment/crails",
+    "../libcrails-captcha/libcrails-captcha/crails",
     "../libcrails-cli/libcrails-cli/crails",
     "../libcrails-controllers/libcrails-controllers/crails",
     "../libcrails-cookies/libcrails-cookies/crails",
@@ -20,6 +22,7 @@
     "../libcrails-html-views/libcrails-html-views/crails",
     "../libcrails-http-client/libcrails-http-client/crails",
     "../libcrails-i18n/libcrails-i18n/crails",
+    "../libcrails-image/libcrails-image/crails",
     "../libcrails-json-parser/libcrails-json-parser/crails",
     "../libcrails-json-views/libcrails-json-views/crails",
     "../libcrails-logger/libcrails-logger/crails",
@@ -34,6 +37,7 @@
     "../libcrails-redis/libcrails-redis/crails",
     "../libcrails-renderer/libcrails-renderer/crails",
     "../libcrails-router/libcrails-router/crails",
+    "../libcrails-rss-views/libcrails-rss-views/crails",
     "../libcrails-selenium/libcrails-selenium/crails",
     "../libcrails-semantics/libcrails-semantics/crails",
     "../libcrails-sentry/libcrails-sentry/crails",
@@ -45,6 +49,7 @@
     "../libcrails-tests/libcrails-tests/crails",
     "../libcrails-url-parser/libcrails-url-parser/crails",
     "../libcrails-xml-parser/libcrails-xml-parser/crails",
+    "../libcrails-yaml-parser/libcrails-yaml-parser/crails",
     "../libcrails-xmlrpc/libcrails-xmlrpc/crails"
   ],
   "metadata": {
@@ -57,6 +62,8 @@
     "libtext-archive": { "include": "", "module": "libtext-archive" },
     "libcrails-action": { "module": "libcrails-action" },
     "libcrails-archive": { "module": "libcrails-archive" },
+    "libcrails-attachment": { "module": "libcrails-attachment" },
+    "libcrails-captcha": { "module": "libcrails-captcha" },
     "libcrails-cli": { "module": "libcrails-cli" },
     "libcrails-controllers": { "module": "libcrails-controllers" },
     "libcrails-cookies": { "module": "libcrails-cookies" },
@@ -67,6 +74,7 @@
     "libcrails-html-views": { "module": "libcrails-html-views" },
     "libcrails-http-client": { "module": "libcrails-http-client" },
     "libcrails-i18n": { "module": "libcrails-i18n" },
+    "libcrails-image": { "module": "libcrails-image" },
     "libcrails-json-parser": { "module": "libcrails-json-parser" },
     "libcrails-json-views": { "module": "libcrails-json-views" },
     "libcrails-logger": { "module": "libcrails-logger" },
@@ -82,6 +90,7 @@
     "libcrails-redis": { "module": "libcrails-redis" },
     "libcrails-renderer": { "module": "libcrails-renderer" },
     "libcrails-router": { "module": "libcrails-router" },
+    "libcrails-rss-views": { "module": "libcrails-rss-views" },
     "libcrails-selenium": { "module": "libcrails-selenium" },
     "libcrails-semantics": { "module": "libcrails-semantics" },
     "libcrails-sentry": { "module": "libcrails-sentry" },
@@ -93,6 +102,7 @@
     "libcrails-tests": { "module": "libcrails-tests" },
     "libcrails-url-parser": { "module": "libcrails-url-parser" },
     "libcrails-xml-parser": { "module": "libcrails-xml-parser" },
+    "libcrails-yaml-parser": { "module": "libcrails-yaml-parser" },
     "libcrails-xmlrpc": { "module": "libcrails-xmlrpc" }
   },
   "cflags": [
@@ -104,7 +114,8 @@
     "-I../libbacktrace/libbacktrace",                                                                            
     "-I../libtext-archive/libtext-archive",
     "-I../libcrails-action/libcrails-action",
-    "-I../libcrails-archive/libcrails-archive",                                                                  
+    "-I../libcrails-archive/libcrails-archive",
+    "-I../libcrails-captcha/libcrails-captcha",
     "-I../libcrails-cli/libcrails-cli",
     "-I../libcrails-controllers/libcrails-controllers",                                                          
     "-I../libcrails-cookies/libcrails-cookies",                                                                  
@@ -129,6 +140,7 @@
     "-I../libcrails-redis/libcrails-redis",
     "-I../libcrails-renderer/libcrails-renderer",                                                                
     "-I../libcrails-router/libcrails-router",
+    "-I../libcrails-rss-views/libcrails-rss-views",
     "-I../libcrails-selenium/libcrails-selenium",
     "-I../libcrails-semantics/libcrails-semantics",                                                              
     "-I../libcrails-sentry/libcrails-sentry",
@@ -139,7 +151,8 @@
     "-I../libcrails-templates/libcrails-templates",                                                              
     "-I../libcrails-tests/libcrails-tests",
     "-I../libcrails-url-parser/libcrails-url-parser",                                                            
-    "-I../libcrails-xml-parser/libcrails-xml-parser",                                                            
+    "-I../libcrails-xml-parser/libcrails-xml-parser", 
+    "-I../libcrails-yaml-parser/libcrails-yaml-parser",
     "-I../libcrails-xmlrpc/libcrails-xmlrpc"
   ]
 }

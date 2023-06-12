@@ -1,0 +1,6 @@
+<p>Adds a recipient to the mail.</p>
+<p>You must specify an address for the recipient, and you may also optionally specify a name which will help identify the owner of the address.</p>
+<p>The <code>flags</code> parameter can be use to determine the type of the recipient, using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Mail::RecipientType" href="#/enums/::Crails::Mail::RecipientType" target="_self">Mail::RecipientType</a> enum.</p>
+<p>Using <code>Mail::CarbonCopy</code> as a flag, the aforementionned recipient will receive the mail as a copy, rather than as the main recipient.</p>
+<p>Using <code>Mail::CarbonCopy | Mail::Blind</code> as a flag will result in a similar effect, though the recipient will be hidden from all other recipients, which is good practice when sending the same mail to multiple users.</p>
+<p><em>N.B.: a Mail must have at least one recipient that's neither a Carbon Copy or a Blind Carbon Copy recipient. A common trick to work around this issue is to use the sender's email as a normal recipient, and then specifying all our other recipients as Blind Carbon Copy recipients.</em></p>

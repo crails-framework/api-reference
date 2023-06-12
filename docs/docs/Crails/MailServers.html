@@ -1,0 +1,16 @@
+<p>This singleton class is used to create instances of mail services, used to send mails through one of the provided backends.</p>
+<p>Mail services are created using a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServers::Conf" href="#/classes/::Crails::MailServers::Conf" target="_self">MailServers::Conf</a> object, which can be easily generated using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServer" href="#/classes/::Crails::MailServer" target="_self">MailServer</a> helper class.</p>
+<pre><code class="language-c++">std::shared_ptr&lt;Crails::MailServiceInterface&gt; service;
+
+service = Crails::MailServers::singleton::require().create(Crails::MailServer()
+  .backend(MailServers::SMTP)
+  .hostname(&quot;mail.gandi.net&quot;)
+  .port(587)
+  .use_tls(true)
+);
+</code></pre>
+<p>You can also pre-define a set of configuration in the <code>config/mailers.cpp</code> file. See the documentation for <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServer" href="#/classes/::Crails::MailServer" target="_self">MailServer</a> for further details. The configurations defined this way can then be used as following:</p>
+<pre><code class="language-c++">std::shared_ptr&lt;Crails::MailServiceInterface&gt; service;
+
+service = Crails::MailServers::singleton::require().create(&quot;Your configuration name goes here&quot;);
+</code></pre>

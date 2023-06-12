@@ -1,0 +1,13 @@
+<p>Sends email using SMTP or MailGrid.</p>
+<p>The mail module provides classes to represent emails, use view to render an email's body, and send them to their recipients through various backends.</p>
+<p>You can add this module to your Crails application using the following command:</p>
+<pre><code>crails plugins mail install
+</code></pre>
+<p>This will create the <code>config/mailers.cpp</code> file, which can be used to define the mail services
+your application will use: see the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServer" href="#/classes/::Crails::MailServer" target="_self">Crails::MailServer</a> documentation for more details.</p>
+<p>Once your server are configured, you may then interact with them through a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServiceInterface" href="#/classes/::Crails::MailServiceInterface" target="_self">Crails::MailServiceInterface</a>, obtained
+by using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServers" href="#/classes/::Crails::MailServers" target="_self">Crails::MailServers</a> singleton, or through a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Mailer" href="#/classes/::Crails::Mailer" target="_self">Crails::Mailer</a>. The latter is designed to be used from
+a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderController" href="#/typedef/::Crails::RenderController" target="_self">Crails::Controller</a> and allows you to render Crails Views as emails.</p>
+<p>The mailing API is asynchronous, and you're responsible for making sure that the objects calling the API
+aren't deleted until the sending process is over. This can easily be achieved by encapsulating <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::shared_ptr" href="" target="_self">std::shared_ptr</a>
+objects within the callback sent to the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="CrailsMailer::send" href="" target="_self">Crails::Mailer::send</a> or <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="CrailsMailServiceInterface::send" href="" target="_self">Crails::MailServiceInterface::send</a> methods.</p>

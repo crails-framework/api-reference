@@ -1,1 +1,1 @@
-Interface and helpers for Renderers. A Renderer is an object used to attempt to try and templates in a given [mimetype format](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
+Interface and helpers for Renderers. A Renderer is an object used to attempt to try and render templates matching a given [mimetype format](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).

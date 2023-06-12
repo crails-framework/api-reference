@@ -41,8 +41,6 @@ using the `RenderController::render` method:
 ```c++
 void MyController::show(Article& article)
 {
-  Crails::SharedVars properties;
-
   vars["article"] = &article;
   render("resources/show");
 }

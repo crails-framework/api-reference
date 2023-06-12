@@ -24,3 +24,5 @@ class MyBodyParser : public Crails::BodyParser
   }
 };
 ```
+
+`BodyParser` is a helper class that makes it easy to receive the entire body of a request at once. In some cases, for instance when the body may be very large, you should directly use [RequestParser] and rely on [Connection::on_received_body_chunk].

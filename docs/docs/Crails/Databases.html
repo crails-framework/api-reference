@@ -2,7 +2,7 @@
 <p>This design improves your application's response time by saving the time that would otherwise be spent on repeatedly opening and closing connections to your databases.</p>
 <p><code>Databases</code> is implementation-agnostic, and you can use it to manage your connection with several types of databases at the same time, such as MySQL, PostgreSQL, Sqlite, Redis, MongoDB, etc.</p>
 <h4>Pre-configured databases</h4>
-<p>Available databases are configured by defining the static <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::map<Environment, std::map<std::string, DatabaseSettings>>" href="#/typedef/std::map<Environment, std::map<std::string, DatabaseSettings>>" target="_self">Databases::Settings</a> <code>settings</code> attribute. Configurations are mapped by <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Environment" href="#/enums/::Crails::Environment" target="_self">Crails::Environment</a>:</p>
+<p>Available databases are configured by defining the static <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::map<Environment, DatabasesMap>" href="#/typedef/std::map<Environment, DatabasesMap>" target="_self">Databases::Settings</a> <code>settings</code> attribute. Configurations are mapped by <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Environment" href="#/enums/::Crails::Environment" target="_self">Crails::Environment</a>:</p>
 <pre><code class="language-c++">const Crails::Databases::Settings = {
   {
     Crails::Development, {

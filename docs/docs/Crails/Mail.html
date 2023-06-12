@@ -1,0 +1,29 @@
+<p>Represents an email with its various attributes: content, sender, recipients...</p>
+<p>The mail object is a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderTarget" href="#/classes/::Crails::RenderTarget" target="_self">RenderTarget</a>, making it possible to use as the target for calls to the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Renderer" href="#/classes/::Crails::Renderer" target="_self">Renderer</a>.</p>
+<p>The represented mail can then be sent using one of the implementations for <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServiceInterface" href="#/classes/::Crails::MailServiceInterface" target="_self">MailServiceInterface</a>.</p>
+<h4>Example</h4>
+<p>Here's a simple example of sending an email using <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServers" href="#/classes/::Crails::MailServers" target="_self">MailServers</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServiceInterface" href="#/classes/::Crails::MailServiceInterface" target="_self">MailServiceInterface</a>:</p>
+<pre><code class="language-c++">#include &lt;crails/mail.hpp&gt;
+#include &lt;crails/mail_servers.hpp&gt;
+
+void send_mail()
+{
+  Crails::Mail mail;
+  std::shared_ptr&lt;MailServiceInterface&gt; service;
+
+  service = MailServers::singleton::require().create(&quot;smtp&quot;);
+  mail.set_sender(&quot;greeter@domain.org&quot;, &quot;The Name of the Platform&quot;);
+  mail.set_reply_to(&quot;admin@domain.org&quot;);
+  mail.add_recipient(&quot;user@aol.com&quot;, &quot;Pilip Edmund 1st of the name&quot;);
+  mail.set_subject(&quot;Hello World&quot;);
+  mail.set_body(&quot;&lt;h1&gt;Greetings&lt;/h1&gt;, universe !.&quot;);
+  mail.set_header(&quot;Content-Type&quot;, &quot;text/html&quot;);
+  service-&gt;connect([mail, service]()
+  {
+    service-&gt;send(mail, <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::service" href="" target="_self">service</a>()
+    {
+      // Mail sent successfully
+    });
+  });
+}
+</code></pre>

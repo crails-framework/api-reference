@@ -1,0 +1,24 @@
+<p><a href="https://en.wikipedia.org/wiki/HMAC">HMAC</a> is a <a href="https://en.wikipedia.org/wiki/Message_authentication_code">MAC</a> (message authentication code) involving a cryptographic hash function and a secret cryptographic key. It may be used both to verify data integrity and the authenticity of a message.</p>
+<p>The <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::HmacDigest" href="#/classes/::Crails::HmacDigest" target="_self">HmacDigest</a> class takes three parameters as its constructor:</p>
+<ul>
+<li>A cryptographic function, provided by the OpenSSL library (such as <a href="https://www.openssl.org/docs/man1.1.1/man3/EVP_sha1.html">EVP_sha1</a>, <a href="https://www.openssl.org/docs/man1.1.1/man3/EVP_shake256.html">EVP_sha3-224</a>, <a href="https://www.openssl.org/docs/man1.1.1/man3/EVP_md5.html">MD5</a>),</li>
+<li>The secret cryptographic key,</li>
+<li>The message to be hashed.</li>
+</ul>
+<p>HMAC does not encrypt the message. Instead, the message (encrypted or not) must be sent alongside the HMAC hash. Parties with the secret key will hash the message again themselves, and if it is authentic, the received and computed hashes will match.</p>
+<h4>Example</h4>
+<p>The following example checks the authenticity of a message:</p>
+<pre><code class="language-c++">#include &lt;crails/hmac.hpp&gt;
+
+bool verify_message(const std::string&amp; message, const std::string&amp; hashed_message)
+{
+  static const std::string secret_key(&quot;4142912351.13828282@deusto.edu&quot;);
+  Crails::HmacDigest challenge(EVP_sha256(), secret_key, message);
+
+  return challenge.to_string() == hashed_message;
+}
+</code></pre>
+<p>In this example, the <code>hashed_message</code> value by a 3rd party is represented as an hexadecimal string.
+If the hashed_message had been encoded in Base64 instead, we'd replace <code>digest.to_string()</code> with <code>digest.to_base64()</code>.</p>
+<h4>Other</h4>
+<p>See <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::HmacMd5Digest" href="#/classes/::Crails::HmacMd5Digest" target="_self">HmacMd5Digest</a> from <code>crails/md5.hpp</code> to implement HMAC-MD5 with less verbose code.</p>

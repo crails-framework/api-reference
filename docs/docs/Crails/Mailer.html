@@ -1,0 +1,53 @@
+<p>The Mailer class helps you quickly rendering emails using Crails views.
+The relevant <code>render</code> methods provided in <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderController" href="#/classes/::Crails::RenderController" target="_self">Crails::RenderController</a> are also
+implemented in the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Mailer" href="#/classes/::Crails::Mailer" target="_self">Crails::Mailer</a> class.</p>
+<p>The Mailer class is designed to be inherited from, as it provides virtual methods
+that you can override to handle the success or failure of the mail sending process.</p>
+<p>Its constructor takes a reference <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RenderController" href="#/typedef/::Crails::RenderController" target="_self">Crails::Controller</a> as parameter, as well as the
+name of a mail service configuration as defined in <code>config/mailers.cpp</code>.</p>
+<h3>Examples</h3>
+<pre><code class="language-c++">#include &lt;crails/mailer.hpp&gt;
+
+class WelcomeMailer : public Crails::Mailer
+{
+public:
+  WelcomeMailer(WelcomeController&amp; controller) : Mailer(controller, &quot;smtp&quot;)
+  {
+    mail.set_sender(&quot;My Application&quot;, &quot;no-reply@myapplication.com&quot;);
+  }
+
+  void add_recipient(const std::string&amp; name, const std::string&amp; mail)
+  {
+    mail.add_recipient(name, mail);
+  }
+
+  void on_error_occured() override
+  {
+    reinterpret_cast&lt;WelcomeController*&gt;(controller)-&gt;on_welcome_failure();
+  }
+};
+
+void WelcomeController::welcome()
+{
+  auto mailer = std::make_shared&lt;WelcomeMailer&gt;();
+
+  mailer-&gt;add_recipient(&quot;Christophe Lambert&quot;, &quot;c.lambert@wanadoo.fr&quot;);
+  mailer-&gt;render(&quot;welcome/email&quot;, {
+    {&quot;message&quot;, &quot;Hello World&quot;}
+  });
+  mailer-&gt;send([this, mailer]()
+  {
+    on_welcome_success();
+  });
+}
+
+void WelcomeController::on_welcome_success()
+{
+  render(&quot;welcome/view&quot;);
+}
+
+void WelcomeController::on_welcome_failure()
+{
+  render(&quot;welcome/failure&quot;);
+}
+</code></pre>

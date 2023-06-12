@@ -3,9 +3,10 @@
 <ul>
 <li><a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::map<std::string, boost::any>" href="#/typedef/std::map<std::string, boost::any>" target="_self">SharedVars</a> object,</li>
 <li>Name of the variable to fetch</li>
+<li>Default value (optional)</li>
 </ul>
 <p>Throws <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::boost_ext::out_of_range" href="#/classes/::boost_ext::out_of_range" target="_self">boost_ext::out_of_range</a> if the variable does not exist.</p>
-<p>Throws <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost_ext::bad_any_cast" href="" target="_self">boost_ext::bad_any_cast</a> exception if the variable exists, but the requested type didn't match the variable type.</p>
+<p>Throws <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::bad_any_cast" href="" target="_self">boost::bad_any_cast</a> exception if the variable exists, but the requested type didn't match the variable type.</p>
 <p>Examples:</p>
 <pre><code class="language-c++">#include &lt;crails/any_cast.hpp&gt;
 #include &lt;crails/shared_vars.hpp&gt;
@@ -20,13 +21,37 @@ int main()
     {&quot;as-int&quot;, number}
   };
 
-  Crails::cast&lt;const char*&gt;(vars, &quot;hello-world&quot;, &quot;&quot;); // returns a pointer to &quot;Hello world&quot;
+  Crails::cast&lt;const char*&gt;(vars, &quot;hello-world&quot;); // returns a pointer to &quot;Hello world&quot;
 
-  Crails::cast&lt;std::string&gt;(vars, &quot;as-string&quot;, &quot;&quot;); // returns a copy of the &quot;as-string&quot; string
+  Crails::cast&lt;std::string&gt;(vars, &quot;as-string&quot;); // returns a copy of the &quot;as-string&quot; string
 
-  Crails::cast&lt;std::string&gt;(vars, &quot;undefined&quot;); // throws boost_ext::out_of_range 
+  Crails::cast&lt;int&gt;(vars, &quot;as-int&quot;); // returns 12
 
-  Crails::defaults_to&lt;std::string&gt;(vars, &quot;hello-world&quot;, &quot;&quot;); // throw boost_ext::bad_any_cast
+  Crails::cast&lt;int&gt;(vars, &quot;other-number&quot;, 42); // returns 42
+
+  Crails::cast&lt;std::string&gt;(vars, &quot;undefined&quot;); // throws boost_ext::out_of_range
+
+  Crails::cast&lt;int&gt;(vars, &quot;hello-world&quot;, &quot;&quot;); // throw boost::bad_any_cast
 
   return 0;
+</code></pre>
+<p>The cast function is usually very strict about types and qualifiers, but it can be more tolerant with string types.
+For instance, the following casts are all valid:</p>
+<ul>
+<li>From <code>const char*</code>, <code>std::string</code>, <code>const std::string</code> and <code>std::string_view</code> to either <code>const std::string</code> or <code>std::string</code>.</li>
+<li>From <code>const char*</code> to <code>std::string_view</code></li>
+<li>From <code>std::string_view</code> to <code>const char*</code></li>
+</ul>
+<p>Which means the following calls would return valid strings as intended:</p>
+<pre><code class="language-c++">Crails::SharedVars vars{
+  {&quot;hello-world&quot;, &quot;Hello world&quot;},
+  {&quot;as-string&quot;, std::string(&quot;Hello world&quot;)},
+  {&quot;as-string_view&quot;, std::string_view(&quot;Hello world&quot;)}
+};
+
+Crails::cast&lt;const std::string&gt;(vars, &quot;hello-world&quot;);
+Crails::cast&lt;std::string&gt;(vars, &quot;hello-world&quot;);
+Crails::cast&lt;std::string_view&gt;(vars, &quot;hello-world&quot;);
+Crails::cast&lt;const char*&gt;(vars, &quot;as-string-view&quot;);
+Crails::cast&lt;std::string&gt;(vars, &quot;as-string-view&quot;);
 </code></pre>

@@ -1,0 +1,10 @@
+<p>Represents a file in a persistent storage. The reference to that file can be stored in database using a string of characters.</p>
+<p>The attachment can be initialized from a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Params" href="#/classes/::Crails::Params" target="_self">Params</a> object using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="Attachment::use_uploaded_file" href="" target="_self">Attachment::use_uploaded_file</a> method:</p>
+<ul>
+<li><p>the file will be stored with a randomly generated filename in the folder pointed at by the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="Attachment::get_store_path" href="" target="_self">Attachment::get_store_path</a> - you may overload this
+method to store files in a custom folder.</p>
+</li>
+<li><p>a UID will be generated which can be stored in a database, to assign the attachment to a given model.</p>
+</li>
+</ul>
+<p>The file can then be removed from storage using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="Attachment::cleanup_files" href="" target="_self">Attachment::cleanup_files</a> method.</p>

@@ -28,8 +28,6 @@ from <a href="#/packages/libcrails-controllers">libcrails-controllers</a>, you s
 using the <code>RenderController::render</code> method:</p>
 <pre><code class="language-c++">void MyController::show(Article&amp; article)
 {
-  Crails::SharedVars properties;
-
   vars[&quot;article&quot;] = &amp;article;
   render(&quot;resources/show&quot;);
 }

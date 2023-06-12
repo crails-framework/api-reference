@@ -1,0 +1,8 @@
+<p>Designed to be used by implementations of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">RequestParser</a>, this method allows you to set a callback that will be called once a chunk of the current request body has been received.</p>
+<p>There are some limitations to this way of retrieving a request body:</p>
+<ul>
+<li><p>Only the first <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">RequestParser</a> requiring a body may receive the request body. Typically, a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">RequestParser</a> receiving a request body should be the last parser from the pipeline to run on a request. This is implemented by having such a parser calling back the context with <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="RequestParser::Stop" href="" target="_self">RequestParser::Stop</a>.</p>
+</li>
+<li><p>If this method is not immediately called after a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a> is created, the request's body will be (at least partially) ignored. This means that no asynchronous <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestParser" href="#/classes/::Crails::RequestParser" target="_self">RequestParser</a> should run before the one that will receive the body.</p>
+</li>
+</ul>

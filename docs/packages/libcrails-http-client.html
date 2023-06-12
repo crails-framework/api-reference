@@ -1,7 +1,7 @@
 <p><a href="https://www.boost.org/doc/libs/1_73_0/libs/beast/doc/html/index.html">Beast</a> based library providing HTTP clients with both synchronous and asynchronous request support.</p>
 <p>Vanilla HTTP requests are done using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Client" href="#/classes/::Crails::Client" target="_self">Crails::Client</a> class, while HTTP requests with SSL are done using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Ssl::Client" href="#/classes/::Crails::Ssl::Client" target="_self">Crails::Ssl::Client</a> class.</p>
 <h4>Synchronous API:</h4>
-<p>Performing HTTP request synchronously is pretty simple. The types used for representing requests and responses are <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::request<boost::beast::http::string_body>" href="#/typedef/boost::beast::http::request<boost::beast::http::string_body>" target="_self">Crails::HttpRequest</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::response<boost::beast::http::string_body>" href="#/typedef/boost::beast::http::response<boost::beast::http::string_body>" target="_self">Crails::HttpResponse</a>.</p>
+<p>Performing HTTP request synchronously is pretty simple. The types used for representing requests and responses are <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::request<boost::beast::http::buffer_body>" href="#/typedef/boost::beast::http::request<boost::beast::http::buffer_body>" target="_self">Crails::HttpRequest</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::response<boost::beast::http::string_body>" href="#/typedef/boost::beast::http::response<boost::beast::http::string_body>" target="_self">Crails::HttpResponse</a>.</p>
 <p>Don't forget to call the <code>connect</code> method before performing any query:</p>
 <pre><code class="language-c++">Crails::Ssl::Client http(&quot;duckduckgo.com&quot;, 443);
 Crails::HttpRequest request{
@@ -12,6 +12,7 @@ Crails::HttpRequest request{
 Crails::HttpResponse response;
 
 http.connect();
+request.set(Crails::HttpHeader::host, &quot;duckduckgo.com&quot;);
 response = http.query(request);
 </code></pre>
 <h4>Asynchronous API:</h4>
@@ -25,9 +26,27 @@ Crails::HttpRequest request{
 };
 
 http.connect();
+request.set(Crails::HttpHeader::host, &quot;duckduckgo.com&quot;);
 http.async_query(request, <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::http" href="" target="_self">http</a>(const Crails::HttpRespones&amp; response, boost::beast::error_code ec)
 {
   ...
 });
-response = http.query(request);
+</code></pre>
+<h4>Controller component:</h4>
+<p>This package also includes <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::QueryController" href="#/classes/::Crails::QueryController" target="_self">Crails::QueryController</a>, a <em>controller component</em> that you may use with the <a href="#/packages/libcrails-controllers/namespaces">libcrails-controllers package</a>
+to safely run both synchronous or asynchronous HTTP queries from your controllers:</p>
+<pre><code class="language-c++">class MyController : public Crails::QueryController&lt;&gt;
+{
+public:
+  MyController(Crails::Context&amp; context) : Crails::QueryController(context) {}
+
+  void my_query_action()
+  {
+    auto url = Crails::Url::from_string(&quot;https://duckduckgo.com/q?=Hello%20World&quot;);
+    http_async_query(url, <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::this" href="" target="_self">this</a>(const Crails::HttpResponse&amp; response, boost::beast::error_code)
+    {
+      render(HTML, response.body());
+    });
+  }
+};
 </code></pre>

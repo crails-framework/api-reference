@@ -1,0 +1,35 @@
+<p>This class helps you define mail server configurations for the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::MailServers" href="#/classes/::Crails::MailServers" target="_self">MailServers</a> class.</p>
+<p>This class is typically used in the <code>config/mailers.cpp</code> file, and can be used to define configurations
+for any supported backend.</p>
+<p>Here are a few examples using this class for various backends:</p>
+<h3>Smtp server</h3>
+<pre><code class="language-c++">#include &lt;crails/mail_servers.hpp&gt;
+
+using namespace Crails;
+
+const MailServers::servers = {
+  {
+    &quot;smtp&quot;, MailServer()
+      .hostname(&quot;mail.gandi.net&quot;)
+      .port(587)
+      .use_tls(true)
+      .use_authentication(true)
+      .username(&quot;username@domain.org&quot;)
+      .password(&quot;password&quot;)
+  }
+};
+</code></pre>
+<h3>MailGun HTTP API</h3>
+<pre><code class="language-c++">#include &lt;crails/mail_servers.hpp&gt;
+
+using namespace Crails;
+
+const MailServers::servers = {
+  {
+    &quot;mailgun&quot;, MailServer()
+      .backend(MailServers::MailGun)
+      .hostname(&quot;mg.domain.org&quot;)
+      .username(&quot;API Key ID&quot;)
+      .password(&quot;API Key&quot;)
+};
+</code></pre>

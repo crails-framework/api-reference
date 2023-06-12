@@ -1,0 +1,40 @@
+<p>The struct class helps you interact, send and receive <code>&lt;struct&gt;</code> elements from the XML-RPC protocol.</p>
+<p><a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Struct" href="#/classes/::XmlRpc::Struct" target="_self">Struct</a> can be implicitely casted to <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">Variable</a>, allowing you to pass them as parameters to XML-RPC methods. You may also create a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Struct" href="#/classes/::XmlRpc::Struct" target="_self">Struct</a> from a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">Variable</a> by passing the variable as a parameter to the constructor.</p>
+<p>You can define your own custom structs using a series of macro to define its XML-RPC attributes, as demonstrated in the following example:</p>
+<pre><code class="language-cpp">struct MyCustomStruct : public XmlRpc::Struct
+{
+  MyCustomStruct() {}
+  MyCustonStruct(const XmlRpc::Variable&amp; variable) : XmlRpc::Struct(variable) {}
+
+  XmlRpc_string_property(title)
+  XmlRpc_string_property(description)
+  XmlRpc_date_property(updated_at)
+  XmlRpc_string_array_property(usernames)
+};
+</code></pre>
+<p>You can then set these properties using setters as such:</p>
+<pre><code class="language-cpp">MyCustomStruct my_struct;
+std::vector&lt;std::string&gt; usernames{&quot;Roger&quot;,&quot;Hanin&quot;};
+
+my_struct.set_title(&quot;Event name&quot;);
+my_struct.set_description(&quot;Some boring kind of event&quot;);
+my_struct.set_date(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+my_struct.set_usernames(usernames);
+</code></pre>
+<p>Or access them using getters as such:</p>
+<pre><code class="language-cpp">if (my_struct.is_title_nil())
+  cout &lt;&lt; &quot;No title&quot; &lt;&lt; endl;
+else
+  cout &lt;&lt; my_struct.get_title() &lt;&lt; endl;
+</code></pre>
+<p>The macros available to define your attributes are:</p>
+<ul>
+<li>XmlRpc_string_property</li>
+<li>XmlRpc_int_property</li>
+<li>XmlRpc_double_property</li>
+<li>XmlRpc_date_property</li>
+<li>XmlRpc_bool_property</li>
+<li>XmlRpc_string_array_property</li>
+<li>XmlRpc_int_array_property</li>
+<li>XmlRpc_double_array_property</li>
+</ul>

@@ -18,6 +18,7 @@ Crails::HttpRequest request{
 Crails::HttpResponse response;
 
 http.connect();
+request.set(Crails::HttpHeader::host, "duckduckgo.com");
 response = http.query(request);
 ```
 
@@ -36,8 +37,31 @@ Crails::HttpRequest request{
 };
 
 http.connect();
+request.set(Crails::HttpHeader::host, "duckduckgo.com");
 http.async_query(request, [http](const Crails::HttpRespones& response, boost::beast::error_code ec)
 {
   ...
 });
+```
+
+#### Controller component:
+
+This package also includes [Crails::QueryController], a _controller component_ that you may use with the [libcrails-controllers package](#/packages/libcrails-controllers/namespaces)
+to safely run both synchronous or asynchronous HTTP queries from your controllers:
+
+```c++
+class MyController : public Crails::QueryController<>
+{
+public:
+  MyController(Crails::Context& context) : Crails::QueryController(context) {}
+
+  void my_query_action()
+  {
+    auto url = Crails::Url::from_string("https://duckduckgo.com/q?=Hello%20World");
+    http_async_query(url, [this](const Crails::HttpResponse& response, boost::beast::error_code)
+    {
+      render(HTML, response.body());
+    });
+  }
+};
 ```

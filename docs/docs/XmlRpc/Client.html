@@ -1,0 +1,37 @@
+<p>The <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Client" href="#/classes/::XmlRpc::Client" target="_self">XmlRpc::Client</a> class allows you to call a remote function using the <a href="https://en.wikipedia.org/wiki/XML-RPC">XML-RPC</a> protocol using C++ semantics.</p>
+<p>Here are some examples of uses:</p>
+<pre><code class="language-cpp">int main()
+{
+  XmlRpc::Client service(&quot;https://localhost:3001/xmlrpc&quot;);
+
+  {
+    // Simple call with no parameters
+    std::string response = service.call(&quot;function_name&quot;);
+    std::cout &lt;&lt; &quot;function_name responded with &quot; &lt;&lt; response &lt;&lt; std::endl;
+  }
+
+  {
+    // Call with parameters using native C++ types
+    int response = service.call(&quot;sum&quot;, 12, 24);
+    std::cout &lt;&lt; &quot;sum responded with &quot; &lt;&lt; response &lt;&lt; std::endl;
+  }
+
+  {
+    // Call returning XmlRpc types
+    XmlRpc::Variable response = service.call(&quot;current_date&quot;);
+    std::time_t timestamp = response.as_date();
+    std::cout &lt;&lt; &quot;current timestamp is: &quot; &lt;&lt; timestamp &lt;&lt; std::endl;
+  }
+
+  {
+    // Call with XmlRpc types as parameters
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    bool response = service.call(&quot;is_before_due_date&quot;, XmlRpc::Variable::from_date(now));
+    std::cout &lt;&lt; &quot;is_before_due_date respondeed with: &quot; &lt;&lt; response &lt;&lt; std::endl;
+  }
+
+  return 0;
+}
+</code></pre>
+<p>XML-RPC arrays, structs, and various types are supported through the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">XmlRpc::Variable</a> and <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Struct" href="#/classes/::XmlRpc::Struct" target="_self">XmlRpc::Struct</a> classes, and can be used both as parameters and return values.</p>
+<p>If and when an XML-RPC <em>fault</em> occurs, an exception will be thrown using the type <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Fault" href="#/classes/::XmlRpc::Fault" target="_self">XmlRpc::Fault</a>.</p>

@@ -1,0 +1,44 @@
+<p>The <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Controller" href="#/classes/::XmlRpc::Controller" target="_self">XmlRpc::Controller</a> class allows you to implement an <a href="https://en.wikipedia.org/wiki/XML-RPC">XML-RPC</a> endpoint that integrates within a Crails server and its <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Router" href="#/classes/::Crails::Router" target="_self">Crails::Router</a>. The functions you want to expose using the XML-RPC protocol are to be implemented as methods of your controller, and can be registered using C++ semantics.</p>
+<p>In the following example, we create a simple controller with three methods:</p>
+<pre><code class="language-cpp">#pragma once
+#include &lt;crails/xmlrpc/controller.hpp&gt;
+
+class MyXmlRpcEndpoint : public XmlRpc::Controller
+{
+public:
+  MyXmlRpcEndpoint(Crails::Context&amp; context) : XmlRpc::Controller(context)
+  {
+    register_method(&quot;sum&quot;, &amp;MyXmlRpcEndpoint::sum);
+    register_method(&quot;current_date&quot;, &amp;MyXmlRpcEndpoint::current_date);
+    register_method(&quot;is_before_due_date&quot;, &amp;MyXmlRpcEndpoint::is_before_due_date);
+  }
+
+  void sum(int a, int b)
+  {
+    respond_with(a + b);
+  }
+
+  void current_date()
+  {
+    auto now = std::chrono::system_clock::now();
+    respond_with(std::chrono::system_clock::to_time_t(now));
+  }
+
+  void is_before_due_date(const XmlRpc::Variable&amp; variable)
+  {
+    std::time_t due_date = 1686569408;
+
+    respond_with(variable.as_date() &lt; due_date);
+  }
+};
+</code></pre>
+<p>The XML-RPC methods we're exposing are registered in the controller's constructor using <code>register_method</code>. Taking a look at the methods themselves, you'll notice that they have no return type (<code>void</code>): that's because the return value is sent using the <code>respond_with</code> method.</p>
+<p>Both parameters and return values can use either native C++ types or the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">XmlRpc::Variable</a> type.</p>
+<p>You may then register this controller in your router as such, using the <code>endpoint</code> method for the route:</p>
+<pre><code class="language-cpp">#include &quot;my_xmlrpc_controller.hpp&quot;
+
+void Crails::Router::initialize()
+{
+  match_route(&quot;/xmlrpc&quot;, MyXmlRpcController, endpoint);
+}
+</code></pre>

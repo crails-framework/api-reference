@@ -1,0 +1,63 @@
+<p>Simple Captcha generator with support for custom captchas using <a href="https://github.com/crails-framework/libcapt">libcapt</a> or <a href="https://developers.google.com/recaptcha">reCAPTCHA</a>.</p>
+<p>You may add this module to your Crails application using the following command:</p>
+<pre><code class="language-sh">crails plugins extras -a libcrails-captcha
+</code></pre>
+<h2>Setting up custom captchas</h2>
+<p>The only thing you need to setup custom captcha is to download a font for the captcha and initialize it
+within the main function of your server.</p>
+<p>The font must use the CPF format. Examples of such fonts can be found in the <a href="https://github.com/crails-framework/libcapt/tree/master/fonts">libcapt repository</a>.</p>
+<p>Setup these fonts in your main function as following:</p>
+<pre><code class="language-cpp">  Crails::Captcha::Default::set_font_file(&quot;./latin.cpf&quot;);
+</code></pre>
+<p>The filepath (here, <code>./latin.cpf</code>) must be relative to the directory in which the server runs. Keep that in mind when deploying your applications to production.</p>
+<h2>Setting up Google reCAPTCHA</h2>
+<p><strong>TODO</strong></p>
+<h2>Including a captcha in a form</h2>
+<p>The first step is to generate a captcha input and share it with your view, from your controller:</p>
+<pre><code class="language-cpp">#include &lt;crails/captcha/default.hpp&gt;
+
+void MyController::form()
+{
+  Crails::Captcha::Default captcha;
+
+  vars[&quot;captcha_form&quot;] = captcha.render(params);
+  render(&quot;my/form&quot;);
+}
+</code></pre>
+<p>Then render the captcha input into your form:</p>
+<pre><code class="language-html">const std::string @captcha_form;
+// END LINKING
+&lt;form action=&quot;/my-controller/submit&quot; method=&quot;post&quot;&gt;
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;input&quot;&gt;Input&lt;/label&gt;
+    &lt;input type=&quot;text&quot; name=&quot;input&quot; /&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;%= captcha_form %&gt;
+  &lt;/div&gt;
+
+  
+&lt;/form&gt;
+</code></pre>
+<p>Lastly, use the <code>check</code> method to verify whether the captcha was properly filled
+by the user:</p>
+<pre><code class="language-cpp">void MyController::submit()
+{
+  Crails::Captcha::Default captcha;
+  auto self = shared_from_this(); // as the process may be asynchronous, you must
+                                  // keep a shared_ptr stored within your callback
+                                  // to ensure the request won't be closed by the server.
+
+  captcha.check(params, [this, self](bool success)
+  {
+    if (success)
+      render(TEXT, &quot;Yay, it works&quot;);
+    else
+      render(TEXT, &quot;Captcha was invalid&quot;);
+  });
+}
+</code></pre>
+<p>These examples are written using the default captcha generator. If you want to use reCAPTCHA instead,
+just replace <code>#include &lt;crails/captcha/default.hpp&gt;</code> with <code>#include &lt;crails/captcha/google.hpp&gt;</code> and
+<code>Crails::Captcha::Default</code> with your custom overload of the <code>Crails::Captcha::Google</code> class.</p>

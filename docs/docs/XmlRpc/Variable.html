@@ -1,0 +1,53 @@
+<p>The <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">Variable</a> class represents any parameter or return value in the <a href="https://en.wikipedia.org/wiki/XML-RPC">XML-RPC</a> protocol, and gives you tools to easily convert them to native C++ types, or to directly interact with them.</p>
+<h2>Native types</h2>
+<p>When you intend to send values to a remote XML-RPC service, you may instantiate this class yourself by passing one of the following native C++ type to the class constructor:</p>
+<ul>
+<li>int</li>
+<li>double</li>
+<li>bool</li>
+<li>std::string</li>
+</ul>
+<p>When you received such a value from a remote XML-RPC service, you may then convert it to a native type using the following methods:</p>
+<ul>
+<li>as_int()</li>
+<li>as_double()</li>
+<li>as_boolean()</li>
+<li>as_string()</li>
+</ul>
+<p>Note that a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">Variable</a> can also be implicitely cast from any of these types.</p>
+<h3>Dates</h3>
+<p>The <code>dateTime.iso8601</code> XML-RPC type is also supported and can be retrieved as <code>std::time_t</code> using the <code>as_date()</code> method.</p>
+<p>You may also create such a variable from <code>std::time_t</code> using <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="Variable::from_date" href="" target="_self">Variable::from_date</a>:</p>
+<pre><code class="language-cpp">XmlRpc::Variable now = XmlRpc::Variable::from_date(
+  std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())
+);
+</code></pre>
+<h2>Struct</h2>
+<p>This class can also be used to represent <code>&lt;struct&gt;</code> elements. You may directly interact with such structures by using the <code>[]</code> operator overload:</p>
+<pre><code class="language-cpp">XmlRpc::Variable variable = xmlrpc_client.call(&quot;method_returning_struct&quot;);
+XmlRpc::Variable struct_attribute = variable[&quot;title&quot;];
+
+std::cout &lt;&lt; struct_attribute.as_string() &lt;&lt; std::endl;
+</code></pre>
+<p>Or, for a more rigorous approach, you may also describe the layout of the <code>&lt;struct&gt;</code> you expect to send or receive by overloading the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Struct" href="#/classes/::XmlRpc::Struct" target="_self">Struct</a> class, and instantiate such objects using a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">Variable</a>:</p>
+<pre><code class="language-cpp">XmlRpc::Variable variable = xmlrpc_client.call(&quot;method_returning_struct&quot;);
+MyCustomStruct my_struct(variable);
+
+std::cout &lt;&lt; my_struct.get_title() &lt;&lt; std::endl;
+</code></pre>
+<h2>Arrays</h2>
+<p>Variables may also be arrays. You may create them from the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::vector" href="" target="_self">std::vector</a> container, or convert them to one using the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="Variable::as_array" href="" target="_self">Variable::as_array</a> template method. Due to the limitations of the vector container, this will however only work if every variable contained in the array itself has the proper expected type. Otherwise, an exeption will be thrown. Example:</p>
+<pre><code class="language-c++">std::vector&lt;int&gt; values{1,2,3,4};
+XmlRpc::Variable xmlrpc_array(values);
+
+values = xmlrpc_array.as_array&lt;int&gt;();
+</code></pre>
+<p>If your array should contain values with different types, you should read or set it by directly interacting with the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="Variable::array" href="" target="_self">Variable::array</a> attributes, which is itself a list of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::XmlRpc::Variable" href="#/classes/::XmlRpc::Variable" target="_self">Variable</a> objects. Example:</p>
+<pre><code class="language-c++">XmlRpc::Variable xmlrpc_array;
+std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+xmlrpc_array.name = &quot;array&quot;; // do not forget to set the `name` attribute to `array`
+xmlrpc_array.array.push_back(1);
+xmlrpc_array.array.push_back(&quot;string of characters implicitely cast to Variable&quot;);
+xmlrpc_array.array.push_back(XmlRpcArray::from_date(now));
+</code></pre>

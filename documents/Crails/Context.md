@@ -4,7 +4,7 @@ You may access the request and response objects as provided by [Beast](https://w
 
 If the `Context` object gets destroyed before you manually send a response, then the response will be sent as-is.
 
-This is important for asynchronous application: when performing an asynchronous response, you must keep a reference to the request `Context` at least until the response is ready to be sent. This can be easily achieved by keeping an instance of [std::shared_ptr] around, using:
+This is important for asynchronous applications: when performing an asynchronous response, you must keep a reference to the request `Context` at least until the response is ready to be sent. This can be easily achieved by keeping an instance of [std::shared_ptr] around, using:
 
 ```c++
 void handle_async_request(Crails::Context& context)
@@ -17,3 +17,5 @@ void handle_async_request(Crails::Context& context)
   });
 }
 ```
+
+
