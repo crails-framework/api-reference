@@ -40,5 +40,4 @@ http.async_query(request, [http](const Crails::HttpRespones& response, boost::be
 {
   ...
 });
-response = http.query(request);
 ```
