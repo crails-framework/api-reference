@@ -18,3 +18,5 @@ a [Crails::Controller] and allows you to render Crails Views as emails.
 The mailing API is asynchronous, and you're responsible for making sure that the objects calling the API
 aren't deleted until the sending process is over. This can easily be achieved by encapsulating [std::shared_ptr]
 objects within the callback sent to the [Crails::Mailer::send] or [Crails::MailServiceInterface::send] methods.
+
+For a more extensive introduction on how libcrails-mail works, check out our [tutorial](https://crails-framework.github.io/website/tutorials/mail/) !
