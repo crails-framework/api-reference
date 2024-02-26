@@ -23,10 +23,10 @@ int main()
 }
 ```
 
-Components are not all mandatory. The bare minimum would include a scheme, hostname and port:
+Components are not all mandatory. The bare minimum would include a scheme and a hostname:
 
 ```c++
-DatabaseUrl("redis://localhost:4321");
+DatabaseUrl("redis://localhost");
 ```
 
 When the URL is malformed, throws [std::exception].
