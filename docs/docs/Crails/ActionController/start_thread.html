@@ -1,0 +1,27 @@
+<p>Starts a thread for the current <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a>. The thread is returned in a detached state.</p>
+<p>The callback parameter won't be called immediately, as only one thread at a time can run on a given <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::Context" href="#/classes/::Crails::Context" target="_self">Context</a>. It will also be protected from thrown exceptions: note that if the context request hasn't received an answer yet, throwing an exception from the thread will send an error response to the client. If the request already received a repsonse however, the exception will only be recorded in the logs.</p>
+<p>The following example uses <code>start_thread</code> to provide a delayed response:</p>
+<pre><code class="language-c++">void MyController::action()
+{
+  auto self = shared_from_this();
+
+  start_thread([this, self]()
+  {
+    respond_with(HttpStatus::ok);
+  });
+}
+</code></pre>
+<p>Note that we created the <code>self</code> variable to keep a reference to <code>MyController</code>, so it doesn't get removed until the thread's task ends. This is only useful because we use the controllers' methods to send a response to the client. Otherwise, a call to <code>start_thread</code> can be even simpler: here's an example using <code>start_thread</code> to run a command:</p>
+<pre><code class="language-c++">void MyController::action()
+{
+  respond_with(HttpStatus::ok);
+  start_thread([]()
+  {
+    boost::process::child process(&quot;ffmpeg -i attachment.ogg -acodec libmp3lame attachment.mp3&quot;);
+
+    process.wait();
+    if (process.exit_code() != 0)
+      Crails::logger &lt;&lt; Crails::Logger::Error &lt;&lt; &quot;Failed to convert attachment.ogg&quot; &lt;&lt; Crails::Logger::endl;
+  });
+}
+</code></pre>

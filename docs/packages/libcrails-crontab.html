@@ -1,0 +1,15 @@
+<p>A simple utility library for programmatically managing <a href="https://fr.wikipedia.org/wiki/Cron">Cron</a> jobs.</p>
+<h4>Examples</h4>
+<h5>Scheduling a job</h5>
+<pre><code class="language-c++">#include &lt;crails/crontab.hpp&gt;
+
+int main()
+{
+  Crails::Crontab crontab;
+
+  crontab.load();
+  crontab.set_variable(&quot;TMP_DIRECTORY&quot;, &quot;/tmp&quot;);
+  crontab.set_task(&quot;wipe-tmp-directory&quot;, &quot;0 * * * *&quot;, &quot;rm -rf $TMP_DIRECTORY/*&quot;);
+  return crontab.save() ? 0 : 1;
+}
+</code></pre>

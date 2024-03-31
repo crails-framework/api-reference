@@ -120,7 +120,7 @@
   "cflags": [
     "-std=c++17",
     "-DTWILIDOC",
-    "-I/usr/lib64/llvm13/lib/clang/13.0.1/include",
+    "-I/usr/lib64/llvm15/lib/clang/15.0.7/include",
     "-I../libcrails/libcrails",
     "-I../libdatatree/libdatatree",
     "-I../libbacktrace/libbacktrace",                                                                            

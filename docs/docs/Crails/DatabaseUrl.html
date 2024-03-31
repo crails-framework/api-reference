@@ -20,7 +20,7 @@ int main()
   return 0;
 }
 </code></pre>
-<p>Components are not all mandatory. The bare minimum would include a scheme, hostname and port:</p>
-<pre><code class="language-c++">DatabaseUrl(&quot;redis://localhost:4321&quot;);
+<p>Components are not all mandatory. The bare minimum would include a scheme and a hostname:</p>
+<pre><code class="language-c++">DatabaseUrl(&quot;redis://localhost&quot;);
 </code></pre>
 <p>When the URL is malformed, throws <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::exception" href="" target="_self">std::exception</a>.</p>

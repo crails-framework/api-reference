@@ -1,0 +1,7 @@
+<p>Adds or update a named cron job with the given name.</p>
+<p>The following call:</p>
+<pre><code class="language-c++">crontab.set_task(&quot;mytask&quot;, &quot;0 * * * *&quot;, &quot;rm -rf /tmp/*&quot;);
+</code></pre>
+<p>Would generate this cron job:</p>
+<pre><code class="language-shell">0 * * * * rm -rf /tmp/* #name=mytask
+</code></pre>

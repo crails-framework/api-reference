@@ -1,0 +1,26 @@
+<p>Replaces all occurence of a pattern found within a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string" href="" target="_self">std::string</a>. The pattern can be expressed either as a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string_view" href="" target="_self">std::string_view</a> or a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::regex" href="" target="_self">std::regex</a>. The replacement can be expressed through a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::string_view" href="" target="_self">std::string_view</a>, or may be generated dynamically using a lambda.</p>
+<h1>Examples</h1>
+<p>Replacing a simple pattern with a string:</p>
+<pre><code class="language-c++">std::string cats(&quot;cats are catstastic&quot;);
+std::string dogs = Crails::replace_all_occurences(cats, &quot;cat&quot;, &quot;dog&quot;);
+
+cout &lt;&lt; dogs &lt;&lt; endl; // prints: &quot;dogs are dogstastic&quot;;
+</code></pre>
+<p>Replacing regex matches with a string:</p>
+<pre><code class="language-c++">std::string confidential(&quot;The password is &lt;PASSWORD&gt;secret&lt;/password&gt;&quot;);
+std::regex  password_pattern(&quot;&lt;password&gt;[^&lt;]*&lt;/password&gt;&quot;, regex_constants::icase);
+
+// prints &quot;The password is ****&quot;
+cout &lt;&lt; Crails::replace_all_occurences(confidential, password_pattern, &quot;****&quot;) &lt;&lt; endl;
+</code></pre>
+<p>Repalcing regex matches with dynamically generated fillings:</p>
+<pre><code class="language-c++">std::string html(&quot;Hello <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::b" href="" target="_self">b</a>world[/b] !&quot;);
+std::regex  pattern(&quot;\\<a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::b" href="" target="_self">b</a>[^[]*\\[/b]&quot;),
+
+html = Crails::replace_all_occurences(html, pattern, [](const std::string_view match) -&gt; std::string
+{
+  string content(match.substr(3, match.length() - 7));
+  return &quot;&lt;strong&gt;&quot; + content + &quot;&lt;/strong&gt;&quot;;
+});
+cout &lt;&lt; html &lt;&lt; endl; // prints &quot;Hello &lt;strong&gt;world&lt;/world&gt; !&quot;
+</code></pre>

@@ -1,0 +1,30 @@
+<p>Utility class to load, edit and save <a href="https://fr.wikipedia.org/wiki/Cron">crontab</a> files.</p>
+<p>Cron jobs managed by this class are typically affected to a <code>name</code> variable, allowing you to quickly fetch, update or remove them with the <code>get_task</code>, <code>set_task</code> and <code>remove_task</code> methods.</p>
+<p>You may also read and write environment variables which were setup in the crontab using the <code>get_variable</code>, <code>set_variable</code> and <code>remove_variable</code> methods.</p>
+<p>Cron jobs created with other software will be unnamed, but can still be accessed by iterating through jobs using Crontab's iterators, with a for loop:</p>
+<pre><code class="language-c++">// Overwriting the content of all jobs:
+Crails::Crontab crontab;
+
+crontab.load();
+for (Crails::Crontab::Task&amp; job : crontab)
+{
+    job.name = &quot;&quot;;
+    job.schedule = &quot;* * * * *&quot;;
+    job.command = &quot;rm -rf /tmp&quot;;
+}
+</code></pre>
+<p>Or directly using iterators:</p>
+<pre><code class="language-c++">// Removing all unnamed jobs:
+Crails::Crontab crontab;
+Crails::Crontab::iterator it;
+
+crontab.load();
+it = crontab.begin();
+while (it != crontab.end())
+{
+  if (it-&gt;name == &quot;&quot;)
+    it = crontab.erase(it);
+  else
+    it++;
+}
+</code></pre>

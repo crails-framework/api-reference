@@ -1,0 +1,31 @@
+<p>Controller component providing the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::DataTree" href="#/classes/::DataTree" target="_self">DataTree</a> <code>flash</code> protected property for controllers.</p>
+<p>The <code>flash</code> property can be used to communicate data from one http request to the other using cookies. Anything you place in the flash <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::DataTree" href="#/classes/::DataTree" target="_self">DataTree</a> will be exposed to the very next action and then cleared out. This is a great way of doing notices and alerts, such as a create action that sets <code>flash[&quot;notice&quot;] = &quot;Post successfully created&quot;</code> before redirecting to a display action that can then expose the flash to its template. Actually, that exposure is automatically done.</p>
+<pre><code class="language-c++">class PostController : public Crails::FlashController
+{
+public:
+  PostController(Crails::Context&amp; c) : FlashController(c) {}
+
+  void create()
+  {
+    // save post
+    flash[&quot;notice&quot;] = &quot;Post successfully created&quot;;
+    redirect_to(&quot;/posts/&quot; + std::to_string(post.get_id()));
+  }
+
+  void show()
+  {
+    // doesn't need to assign the flash notice to the controller's shared variables, that's done automatically
+    render(&quot;posts/show&quot;);
+  }
+};
+</code></pre>
+<p>Then, in <code>app/views/posts/show.html</code>:</p>
+<pre><code class="language-html">DataTree&amp; @flash;
+// END LINKING
+
+&lt;% if (flash[&quot;notice&quot;].exists()) do -%&gt;
+  &lt;div class=&quot;notice&quot;&gt;&lt;%= flash[&quot;notice&quot;].as&lt;std::string&gt;() %&gt;&lt;/div&gt;
+&lt;% end -%&gt;
+</code></pre>
+<p>This example places a string in the flash. And of course, you can put as many as you like at a time too. If you want to pass non-primitive types, you will have to handle that in your application.</p>
+<p>Just remember: They’ll be gone by the time the next action has been performed.</p>
