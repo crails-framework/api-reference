@@ -3,7 +3,7 @@ Simple Captcha generator with support for custom captchas using [libcapt](https:
 You may add this module to your Crails application using the following command:
 
 ```sh
-crails plugins extras -a libcrails-captcha
+crails plugins extra -a libcrails-captcha
 ```
 
 ## Setting up custom captchas
