@@ -1,4 +1,4 @@
-Implements [Crails::Rnederer] and [Crails::Template] for RSS documents, using XML templates generated using the [ecpp](https://github.com/crails-framework/ecpp) generator:
+Implements [Crails::Renderer] and [Crails::Template] for RSS documents, using XML templates generated using the [ecpp](https://github.com/crails-framework/ecpp) generator:
 
 ```xml
 #include "model.hpp"
