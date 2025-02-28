@@ -50,20 +50,24 @@ const ProxyRequestHandler::Rules ProxyRequestHandler::rules = {
 For more specific use cases, you can also create a `Rule` with your own [ProxyRequestHandler::RuleSolver], like this:
 
 ```c++
-const ProxyRequestHandler::Rules ProxyRequestHandler::rules = {
-  Rule(
-    "^/local-path",
-    [](const HttpRequest& request, const std::smatch& matches)
-    {
-      return ProxyRequest(
-        HttpVerb::get,
-        "duckduckgo.com",
-        443,
-        matches.suffix())
-          .with_ssl()
-    }
-  )
-};
+ApplicationProxy::ApplicationProxy() :
+  Crails::ProxyRequestHandler({
+    ApplicationProxy::Rule(
+      "^/local-path",
+      [](const HttpRequest& request, const std::smatch& matches)
+      {
+        return ProxyRequest(
+          HttpVerb::get,
+          "duckduckgo.com",
+          443,
+          matches.suffix())
+            .with_ssl()
+      }
+    )
+  })
+{}
 ```
 
 This example reproduces the default behavior for Rules: we reproduce the client request by using whatever came after the detected pattern as the _URI path_.
+
+The lambda, passed as a parameter to the rule, is expected to return a [ProxyRequestHandler::ProxyRequest] object describing an HTTP query to be executed by the proxy. The query's response will be forwarded to the client. As parameters, the lambda receives the original [HttpRequest] received by the server, as well as the [std::match_results] for the rule's regular expression.
