@@ -1,6 +1,6 @@
 {
   "project": "Crails Framework",
-  "logo": "https://crails-framework.github.io/website/images/logo.png",
+  "logo": "https://crails-framework.github.io/images/logo.png",
   "docs": "documents",
   "output": "docs",
   "inputs": [
