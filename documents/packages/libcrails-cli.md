@@ -5,4 +5,5 @@ Features include:
 - File generation based on [ecpp](https://github.com/crails-framework/ecpp) templates,
 - Project configuration with [Crails::ProjectVariables],
 - Terminal color helpers,
+- Launching processes and reading their output,
 - Desktop notifications
