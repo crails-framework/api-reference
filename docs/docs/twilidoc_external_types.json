@@ -39,7 +39,10 @@
     "out_of_range": "https://en.cppreference.com/w/cpp/error/out_of_range",
     "regex": "https://en.cppreference.com/w/cpp/regex",
     "mutex": "https://en.cppreference.com/w/cpp/thread/mutex",
-    "lock_guard": "https://en.cppreference.com/w/cpp/thread/lock_guard"
+    "lock_guard": "https://en.cppreference.com/w/cpp/thread/lock_guard",
+    "future": "https://en.cppreference.com/w/cpp/thread/future",
+    "promise": "https://en.cppreference.com/w/cpp/thread/promise",
+    "match_results": "https://en.cppreference.com/w/cpp/regex/match_results"
   },
 
   "boost": {
