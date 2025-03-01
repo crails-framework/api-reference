@@ -19,4 +19,15 @@
   );
 }
 </code></pre>
-<p>To configure the Sentry server that'll be collecting your errors, see the <code>config/sentry.cpp</code> file.</p>
+<p>To configure the Sentry server, you'll need to set a few environment variables:
+<code>SENTRY_PROJECT_ID</code>, <code>SENTRY_KEY</code> and <code>SENTRY_SECRET</code>. You can find the values
+for two of these variables in your DSN URL. Given the following DSN:</p>
+<pre><code>https://abc15de242fa392bc37ef420ab9720cd@o114303.ingest.us.sentry.io/4850190234743225
+</code></pre>
+<p>The values for the configuration variables would be:</p>
+<ul>
+<li><code>SENTRY_PROJECT_ID</code> = <code>4850190234743225</code></li>
+<li><code>SENTRY_KEY</code> = <code>abc15de242fa392bc37ef420ab9720cd@o114303</code></li>
+</ul>
+<p>As for the third <code>SENTRY_SECRET</code> variable, its value can be found in Sentry's
+project settings under the &quot;Security Token&quot; field.</p>

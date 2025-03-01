@@ -30,20 +30,23 @@
 };
 </code></pre>
 <h3>Advanced rules</h3>
-<p>For more specific use cases, you can also create a <code>Rule</code> with your own <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::function<ProxyRequest (const HttpRequest &, const std::smatch &)>" href="#/typedef/std::function<ProxyRequest (const HttpRequest &, const std::smatch &)>" target="_self">ProxyRequestHandler::RuleSolver</a>, like this:</p>
-<pre><code class="language-c++">const ProxyRequestHandler::Rules ProxyRequestHandler::rules = {
-  Rule(
-    &quot;^/local-path&quot;,
-    [](const HttpRequest&amp; request, const std::smatch&amp; matches)
-    {
-      return ProxyRequest(
-        HttpVerb::get,
-        &quot;duckduckgo.com&quot;,
-        443,
-        matches.suffix())
-          .with_ssl()
-    }
-  )
-};
+<p>For more specific use cases, you can also create a <code>Rule</code> with your own <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::function<ProxyRequest (const HttpRequest &, const std::string &, const std::smatch &)>" href="#/typedef/std::function<ProxyRequest (const HttpRequest &, const std::string &, const std::smatch &)>" target="_self">ProxyRequestHandler::RuleSolver</a>, like this:</p>
+<pre><code class="language-c++">ApplicationProxy::ApplicationProxy() :
+  Crails::ProxyRequestHandler({
+    ApplicationProxy::Rule(
+      &quot;^/local-path&quot;,
+      [](const HttpRequest&amp; request, const std::smatch&amp; matches)
+      {
+        return ProxyRequest(
+          HttpVerb::get,
+          &quot;duckduckgo.com&quot;,
+          443,
+          matches.suffix())
+            .with_ssl()
+      }
+    )
+  })
+{}
 </code></pre>
 <p>This example reproduces the default behavior for Rules: we reproduce the client request by using whatever came after the detected pattern as the <em>URI path</em>.</p>
+<p>The lambda, passed as a parameter to the rule, is expected to return a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::ProxyRequestHandler::ProxyRequest" href="#/classes/::Crails::ProxyRequestHandler::ProxyRequest" target="_self">ProxyRequestHandler::ProxyRequest</a> object describing an HTTP query to be executed by the proxy. The query's response will be forwarded to the client. As parameters, the lambda receives the original <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="boost::beast::http::request<boost::beast::http::buffer_body>" href="#/typedef/boost::beast::http::request<boost::beast::http::buffer_body>" target="_self">HttpRequest</a> received by the server, as well as the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="std::match_results" href="" target="_self">std::match_results</a> for the rule's regular expression.</p>

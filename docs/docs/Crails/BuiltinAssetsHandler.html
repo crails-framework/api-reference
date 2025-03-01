@@ -1,0 +1,17 @@
+<p>Implementation of <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::RequestHandler" href="#/classes/::Crails::RequestHandler" target="_self">RequestHandler</a> that serves assets from a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::BuiltinAssets" href="#/classes/::Crails::BuiltinAssets" target="_self">BuiltinAssets</a> object. It is meant to serve a role similar to <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::FileRequestHandler" href="#/classes/::Crails::FileRequestHandler" target="_self">FileRequestHandler</a>, but for handling small static files in the most efficient fashion possible.</p>
+<p>The following theorical example shows how to manually create a <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::BuiltinAssets" href="#/classes/::Crails::BuiltinAssets" target="_self">BuiltinAssets</a> object containing a simple <code>index.html</code> file, and use <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::BuiltinAssetsHandler" href="#/classes/::Crails::BuiltinAssetsHandler" target="_self">BuiltinAssetsHandler</a> to serve it when receiving a <code>GET /scope/index.html</code> request:</p>
+<pre><code class="language-c++">#include &lt;crails/request_handlers/builtin_assets.hpp&gt;
+#include &quot;server.hpp&quot;
+
+Crails::BuiltinAssets assets(&quot;/scope&quot;, &quot;&quot;);
+
+const std::string_view index_html = &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hi&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello World!&lt;/body&gt;&lt;/html&gt;&quot;;
+
+void ApplicationServer::initialize_request_pipe()
+{
+  assets.add(&quot;index.html&quot;, index_html.data(), index_html.length()); 
+  add_request_handler(new Crails::BuiltinAssetsHandler(assets));
+}
+</code></pre>
+<p>Note that while <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::BuiltinAssets" href="#/classes/::Crails::BuiltinAssets" target="_self">BuiltinAssets</a> can be manually created, as shown in the previous example, they are designed to be generated using the <code>crails-builtin-assets</code> command from the <a href="https://github.com/crails-framework/crails-assets">crails-assets</a> tool. See the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::BuiltinAssets" href="#/classes/::Crails::BuiltinAssets" target="_self">BuiltinAssets</a> documentation for more details.</p>
+<p>A BuiltinAssetsHandler can typically be built into a shared library, allowing some assets to be permanently loaded into memory, and shared between several Crails application, making them very quickly accessible with the smallest possible footprint.</p>

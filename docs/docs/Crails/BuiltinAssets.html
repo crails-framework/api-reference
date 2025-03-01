@@ -1,0 +1,37 @@
+<p>Stores a collection of file cached in memory, designed to be served by the <a class="btn btn-outline-primary btn-sm btn-cpptype" data-cpptype="::Crails::BuiltinAssetsHandler" href="#/classes/::Crails::BuiltinAssetsHandler" target="_self">BuiltinAssetsHandler</a> request handler. Every asset in this collection should be compressed using the same method (eg: gzip, brotli). Assets can also be served uncompressed,</p>
+<h1>crails-builtin-assets</h1>
+<p>The Crails Framework comes with a tool to generate implementations of <code>BuiltinAssets</code> from assets found in your filesystem. The following command could be used to generate a <code>MyBuiltinAssets</code> class, able to serve all the files found under the <code>assets/stylesheets</code> folder, compressed using gzip.</p>
+<pre><code class="language-sh">crails-builtin-assets \
+  --inputs &quot;assets/stylesheets&quot; \
+  --output &quot;lib/my_builtin_assets&quot; \
+  --classname &quot;MyBuiltinAssets&quot; \
+  --compression &quot;gzip&quot; \
+  --uri-root &quot;/assets/&quot;
+</code></pre>
+<p>This command will generate a header called <code>lib/my_builtin_assets.hpp</code> which will define the <code>MyBuiltinAssets</code> class. You would then be able to feed this asset library into your request pipe, such as:</p>
+<pre><code class="language-c++">#include &lt;crails/request_handlers/builtin_assets.hpp&gt;
+#include &quot;lib/my_builtin_assets.hpp&quot;
+#include &quot;server.hpp&quot;
+
+const MyBuiltinAssets my_builtin_assets;
+
+void ApplicationServer::initialize_request_pipe()
+{
+  add_request_handler(new Crails::BuiltinAssetsHandler(my_builtin_assets));
+}
+</code></pre>
+<p>The final path for each of your assets is the concatenation of the <code>--uri-root</code> option with each file's path, relative to the input folder they were collected from. For instance, in this example, a file located at <code>assets/stylesheets/application.css</code> would be served when receiving a request for <code>/assets/application.css</code>.</p>
+<p>Note that global constants are defined for each of the file pathes within a <code>BuiltinAssets</code> collection. For instance, if we wanted to include our <code>application.css</code> stylesheet into a layout view, we could define the <code>href</code> attribute of the <code>link</code> tag by using the <code>MyBuiltinAssets::application_css</code> constant:</p>
+<pre><code class="language-html">#include &quot;lib/my_builtin_assets.hpp&quot;
+// END LINKING
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;%= tag(&quot;link&quot;, {{&quot;rel&quot;,&quot;stylesheet&quot;}, {&quot;href&quot;, MyBuiltinAssets::application_css}}) %&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;% if (yield != nullptr) do %&gt;
+      &lt;%= yield %&gt;
+    &lt;% end -%&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
